@@ -1,0 +1,143 @@
+.product-detail-image{
+
+    height: 400px;
+    width: 100%;
+    /* border: 1px solid black; */
+    margin-left: auto;
+    margin-right: auto;
+    
+    border-radius: 18px 18px 0 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+
+}
+
+/* .layer{
+    background: rgba(0, 0, 0, 0.27);
+        height: Inherit;
+        width: 100%;
+        z-index: 1;
+        border-radius: 18px;
+} */
+
+.product-detail-heading{
+
+    font-size: 36px;
+    text-align: start;
+
+}
+
+.product-detail-content{
+    text-align: start;
+    
+}
+
+.product-detail-subheading{
+    font-size: 28px;
+    text-align: start;
+}
+
+.product-detail-size-button{
+   margin-left: auto;
+   margin-right: auto;
+    padding: 6px;
+    width: 100px;
+    display: block;
+    border: 1px solid black;
+    border-radius: 8px;
+
+}
+
+.product-detail-size-price{
+    font-size: 12px;
+    text-align: center;
+  
+}
+
+.product-detail-size-price-active{
+    background-color: #d4e9e2;
+}
+
+.product-detail-sauce{
+    font-size: 14px;
+    text-align: start;
+    
+}
+
+.footer {
+    position: static;
+    width: inherit;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #006241;
+    color: white;
+    text-align: center;
+    margin-bottom: 0;
+    border-radius: 12px 12px 0 0;
+    padding-top: 1%;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-bottom: 1%;
+ }
+
+.footer-font{
+    font-size: 18px;
+    margin-right: 10px;
+    text-align: start;
+}
+
+
+.btn:hover {
+    background-color: white !important;
+    color: black !important;
+    /* border-color: var(--bs-btn-hover-border-color); */
+}
+
+button.green {
+    background-color: white;
+    color: black;
+    
+    text-align: end;
+    font-size: 14px;
+   
+  }
+
+
+/* @media (max-width: 1200px) {
+
+    .product-detail-image{
+
+        height: 300px;
+
+    }
+
+}
+*/
+
+@media (max-width: 990px) {
+
+    .product-detail-image{
+
+        height: 200px;
+
+    }
+
+    .product-detail-size-button{
+       
+        padding: 6px;
+        width: 70px;
+    }
+
+    .product-detail-size-price{
+        font-size: 9px;
+       
+    }
+
+} 
+
+
+
+

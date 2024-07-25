@@ -1,0 +1,159 @@
+.home{
+    text-align: start;
+}
+
+.landing-page {
+    background-image: url("../../Images/User/LandingImage.png");
+    background-position: top right;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-color: #f9f9f9;
+    padding: 2%;
+    margin-top: 30px;
+  }
+
+.landing-heading{
+  font-size: 76px;
+  line-height: 89px;
+}
+
+.features{
+  margin-top: 80px;
+}
+
+button.blue {
+    background-color: #006241;
+    color: white;
+    width: 150px;
+    font-size: 16px;
+   
+  }
+  
+  .blue-heading {
+    font-size: 18px;
+    color: #006241;
+    letter-spacing: 3.52px;
+  }
+  
+  .black-heading {
+    font-size: 48px;
+    color: black;
+  }
+  
+  div.features .card-item {
+    
+  }
+  div.features .card-item .img-bg {
+    background-color: #006241;
+    height: 90px;
+    width: 90px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 10px 10px 50px grey;
+  }
+  div.features .card-item p.heading {
+    font-size: 24px;
+  }
+  div.features .card-item p.content {
+    font-size: 16px;
+    color: #5E6282;
+    width: 281px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .rent-service img {
+    max-height: 400px;
+    max-width: 600px;
+  }
+  .rent-service p.heading {
+    font-size: 32px;
+  }
+  .rent-service p.heading span {
+    color: #006241;
+  }
+  .rent-service p.content {
+    font-size: 16px;
+  }
+  
+  .location iframe {
+    border-radius: 5px;
+    box-shadow: 2px 2px 30px grey;
+    margin-top: 40px;
+    max-width: 1000px;
+    width: 1000px;
+  }
+  
+  .footer-home .end-bar {
+    margin-top: 30px;
+    height: 50px;
+    background-color: #006241;
+    color: white;
+    text-align: center;
+  }
+
+  button.blue :hover{
+    background-color: #d4e9e2;
+    
+  }
+
+  @media (max-width: 990px) {
+    .landing-page {
+      background-image: none;
+      margin-top: 10px;
+    }
+    .features .col-4 {
+      width: 100%;
+    }
+
+    .location iframe {
+
+      width: auto;
+
+    }
+
+    .landing-heading{
+      font-size: 56px;
+      line-height: 70px;
+    }
+
+    .black-heading {
+      font-size: 32px;
+      color: black;
+    }
+    
+    .div1{
+      width: 100%;
+      text-align: center;
+      padding: 2%;
+    }
+    .div2{
+      width: 100%;
+      text-align: center;
+      padding: 2%;
+    }
+    .div3{
+      width: 100%;
+      text-align: center;
+      padding: 2%;
+    }
+
+    .service-image2{
+      width: 300px;
+    }
+
+    .service-image1{
+      width: 300px;
+    }
+
+    .features{
+      margin-top: 70px;
+    }
+
+  }

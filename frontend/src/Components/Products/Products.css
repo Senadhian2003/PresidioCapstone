@@ -1,0 +1,42 @@
+.product-heading{
+    font-size: 56px;
+   text-align: start;
+  }
+
+.search{
+
+   
+        font-size: 12px;
+        font-size: max(16px, 1em);
+        font-family: "Poppins", sans-serif;
+        padding: 0.25em 0.5em;
+        background-color: #f7f4f4;
+        border: 1.5px solid white;
+        border-radius: 5px;
+        background-position: 10px center;
+        outline: none;
+        background-repeat: no-repeat;
+        background-image: url("../../Images/User/SearchInput.png");
+        padding-left: 40px !important;
+        height: 38px;
+       
+        width: 20.02vw;
+        margin-top: 25px;
+
+
+}
+
+
+@media (max-width: 990px) {
+
+    .product-heading{
+        font-size: 30px;
+        line-height: 70px;
+      }
+    
+    .search{
+        padding-left: 40px !important;
+        width: 45.02vw !important;
+    }
+
+}

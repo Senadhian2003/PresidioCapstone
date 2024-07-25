@@ -1,0 +1,21 @@
+/* CSS */
+.navbar {
+    background-color: transparent;
+    padding: 1rem 0;
+  }
+  
+  .navbar-brand img {
+    height: 40px;
+  }
+  
+  .nav-link {
+    color: #333;
+    font-weight: 500;
+    margin-left: 1rem;
+  }
+  
+
+  
+  .active {
+    color: #4475F2 !important;
+  }
