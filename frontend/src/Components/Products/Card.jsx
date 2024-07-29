@@ -1,10 +1,11 @@
 import React from 'react'
 import Cappuccino from "../../Images/User/Cappuccino.webp";
 import "./Card.css";
-function Card() {
+function Card(props) {
   return (
    
       <div className="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <a href={`/ProductDetail/${props.data.id}`}>
               <div className="coffee-card-item">
                 <div className="row">
                   <div className="col-4">
@@ -19,23 +20,22 @@ function Card() {
                     style={{ marginTop: "30px" }}
                   >
                     <div className="coffee-card-item-body"  style={{margin:"1%"}}>
-                    <p className="poppins-semibold heading">Cappuccino</p>
+                    <p className="poppins-semibold heading">{props.data.name}</p>
                     <p className="plus-jakarta-sans-Regular content">
-                      Dark, Rich in flavour espresso lies in wait under a
-                      smoothed and stretched layer of thick foam. It's truly the
-                      height of our baristas' craft.
+                    {props.data.description}
                     </p>
                     </div>
                    
 
                     <div className="d-flex justify-content-between">
-                      <p className="poppins-bold price"> $300 </p>
+                      <p className="poppins-bold price"> $ {props.data.price} </p>
 
                       <button class="btn blue">Buy</button>
                     </div>
                   </div>
                 </div>
               </div>
+              </a>
             </div>
    
   )

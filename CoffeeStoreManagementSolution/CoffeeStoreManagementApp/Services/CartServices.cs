@@ -8,12 +8,18 @@ namespace CoffeeStoreManagementApp.Services
 {
     public class CartServices : ICartServices
     {
+        private readonly IRepository<int, Coffee> _coffeeRepository;
         private readonly IRepository<int,Cart> _cartRepository;
         private readonly IRepository<int, CartItem> _cartItemRepository;
-        public CartServices(IRepository<int,Cart> cartRepository, IRepository<int, CartItem> cartItemRepository) {
+        private readonly IRepository<int, Order> _orderRepository;
+        private readonly IRepository<int, OrderDetail> _orderDetailRepository;
+        public CartServices(IRepository<int, Coffee> coffeeRepository, IRepository<int,Cart> cartRepository, IRepository<int, CartItem> cartItemRepository, IRepository<int, OrderDetail> orderDetailRepository, IRepository<int, Order> orderRepository) {
         
             _cartRepository = cartRepository;
             _cartItemRepository = cartItemRepository;
+            _orderRepository = orderRepository;
+            _orderDetailRepository = orderDetailRepository;
+            _coffeeRepository = coffeeRepository;
         }
 
         public async Task<CartItem> AddItemToCart(AddItemToCartDTO addItemToCartDTO)
@@ -81,6 +87,11 @@ namespace CoffeeStoreManagementApp.Services
 
             var cartItems = userCart.CartItems;
 
+            if (cartItems.Count == 0)
+            {
+                throw new EmptyListException("Cart");
+            }
+
             return cartItems.ToList();
 
         }
@@ -131,7 +142,68 @@ namespace CoffeeStoreManagementApp.Services
             
         }
 
+        public async Task<Order> CheckoutCart(int userId)
+        {
+            var carts = await _cartRepository.GetAll();
+
+            Cart userCart = carts.FirstOrDefault(c => c.UserId == userId);
 
 
+            if (userCart == null)
+            {
+                throw new UnauthorizedUserException("User data not found, login required");
+            }
+
+            var cartItems = userCart.CartItems;
+
+            if (cartItems.Count == 0)
+            {
+                throw new EmptyListException("Cart");
+            }
+
+            Order order = new Order
+            {
+                UserId = userId,
+                ItemsServed = 0,
+                OrderStatus = "Pending",
+                TimeOfOrder = DateTime.Now,
+            };
+
+            await _orderRepository.Add(order);
+
+            double total = 0;
+            int count = 0;
+            foreach (var cartItem in cartItems)
+            {
+                total += cartItem.FinalAmount;
+
+                count += cartItem.Quantity;
+                
+                OrderDetail orderDetail = new OrderDetail
+                {
+                    CoffeeName = cartItem.Coffee.Name,
+                    AddOns = cartItem.AddOns,
+                    Discount = cartItem.Discount,
+                    OrderId = order.OrderId,
+                    Price = cartItem.CartItemPrice,
+                    Quantity = cartItem.Quantity,
+                    status = "Pending"
+
+                };
+
+                await DeleteCartItem(cartItem.CartItemId);
+
+                await _orderDetailRepository.Add(orderDetail);
+
+
+            }
+
+            order.TotalPrice = total;
+            order.TotalItems = count;
+            await _orderRepository.Update(order);
+
+            return order;
+            
+        }
     }
 }

@@ -13,5 +13,8 @@ namespace CoffeeStoreManagementApp.Services.Interfaces
         public Task<CartItem> UpdateCartItemQuantity(UpdateCartItemDTO updateCartItemDTO);
 
         public Task<CartItem> DeleteCartItem(int cartItemId);
+
+        public Task<Order> CheckoutCart(int userId);
+
     }
 }

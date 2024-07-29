@@ -11,15 +11,18 @@ namespace CoffeeStoreManagementApp.Models
 
         public int OrderId { get; set; }
 
+        [JsonIgnore]
         public Order Order { get; set; }
 
         public string CoffeeName { get; set; }
 
         public string AddOns { get; set; }
 
+        public int Quantity { get; set; }
+
         public double Price { get; set; }
 
-        public double Discount { get; set; } = 0;
+        public double Discount { get; set; }
 
         public double FinalAmount => Price - Discount;
 

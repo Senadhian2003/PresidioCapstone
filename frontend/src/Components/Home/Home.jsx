@@ -115,7 +115,7 @@ function Home() {
               <p class="plus-jakarta-sans-Medium content">
               Effortless orders, delightful ambiance—Java Haven transforms your coffee experience, making every visit a pleasure~
               </p>
-              <button class="btn blue">Rent</button>
+              <button class="btn blue">Buy now</button>
             </div>
           </div>
           <div class="row"style={{marginTop: "120px"}}>

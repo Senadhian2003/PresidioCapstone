@@ -29,6 +29,11 @@
 
 }
 
+.product-detail-heading-price{
+    font-size: 28px;
+    text-align: start;
+}
+
 .product-detail-content{
     text-align: start;
     
@@ -43,7 +48,7 @@
    margin-left: auto;
    margin-right: auto;
     padding: 6px;
-    width: 100px;
+    min-width: 100px;
     display: block;
     border: 1px solid black;
     border-radius: 8px;

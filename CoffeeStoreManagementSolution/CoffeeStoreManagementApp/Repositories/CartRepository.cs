@@ -47,7 +47,7 @@ namespace CoffeeStoreManagementApp.Repositories
 
         public async Task<IEnumerable<Cart>> GetAll()
         {
-            var carts = await _context.Carts.Include(c=>c.CartItems).ToListAsync();
+            var carts = await _context.Carts.Include(c=>c.CartItems).ThenInclude(ci=>ci.Coffee).ToListAsync();
 
             if (carts.Any())
             {

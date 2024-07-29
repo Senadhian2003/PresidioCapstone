@@ -21,7 +21,7 @@ namespace CoffeeStoreManagementApp.Services
             
             if(coffees.Any())
             {
-                return coffees.ToList();
+                return coffees.OrderBy(c=>c.Price).ToList();
             }
 
             throw new EmptyListException("Coffee");

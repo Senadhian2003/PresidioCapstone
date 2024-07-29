@@ -89,7 +89,19 @@ namespace CoffeeStoreManagementApp
             builder.Services.AddScoped<IAuthService, AuthService>();
             builder.Services.AddScoped<ICoffeeServices, CoffeeServices>();
             builder.Services.AddScoped<ICartServices, CartServices>();
+            builder.Services.AddScoped<IOrderServices, OrderServices>();
 
+
+            #endregion
+
+            #region CORS
+            builder.Services.AddCors(opts =>
+            {
+                opts.AddPolicy("MyCors", options =>
+                {
+                    options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                });
+            });
             #endregion
 
 
@@ -102,6 +114,7 @@ namespace CoffeeStoreManagementApp
                 app.UseSwaggerUI();
             }
 
+            app.UseCors("MyCors");
             app.UseAuthentication();
             app.UseAuthorization();
 

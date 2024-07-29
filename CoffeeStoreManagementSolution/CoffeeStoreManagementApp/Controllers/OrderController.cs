@@ -1,7 +1,6 @@
 ﻿using CoffeeStoreManagementApp.Exceptions;
-using CoffeeStoreManagementApp.Models;
 using CoffeeStoreManagementApp.Models.DTO;
-using CoffeeStoreManagementApp.Services;
+using CoffeeStoreManagementApp.Models;
 using CoffeeStoreManagementApp.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,27 +9,26 @@ namespace CoffeeStoreManagementApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CartController : ControllerBase
+    public class OrderController : ControllerBase
     {
 
+        private readonly IOrderServices _orderServices;
 
-        private readonly ICartServices _cartServices;
-
-        public CartController(ICartServices cartServices)
+        public OrderController(IOrderServices orderServices)
         {
-            _cartServices = cartServices;
+            _orderServices = orderServices;
         }
 
 
-        [HttpPost("AddCoffeeToCart")]
-        [ProducesResponseType(typeof(CartItem), StatusCodes.Status200OK)]
+        [HttpGet("GetAllOrders")]
+        [ProducesResponseType(typeof(List<Order>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<User>> AddCoffeeToCart(AddItemToCartDTO addItemToCartDTO)
+        public async Task<ActionResult<User>> GetAllOrders()
         {
             try
             {
-                var result = await _cartServices.AddItemToCart(addItemToCartDTO);
+                var result = await _orderServices.ViewAllOrders();
                 return Ok(result);
             }
             catch (EmptyListException ele)
@@ -47,15 +45,15 @@ namespace CoffeeStoreManagementApp.Controllers
         }
 
 
-        [HttpPut("UpdateCartItemQuantity")]
-        [ProducesResponseType(typeof(CartItem), StatusCodes.Status200OK)]
+        [HttpGet("GetAllActiveOrders")]
+        [ProducesResponseType(typeof(List<Order>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<User>> AddCofUpdateCartItemQuantityfeeToCart(UpdateCartItemDTO updateCartItemDTO)
+        public async Task<ActionResult<User>> GetAllActiveOrders()
         {
             try
             {
-                var result = await _cartServices.UpdateCartItemQuantity(updateCartItemDTO);
+                var result = await _orderServices.ViewAllActiveOrders();
                 return Ok(result);
             }
             catch (EmptyListException ele)
@@ -72,15 +70,15 @@ namespace CoffeeStoreManagementApp.Controllers
         }
 
 
-        [HttpGet("GetCartItems")]
-        [ProducesResponseType(typeof(List<CartItem>), StatusCodes.Status200OK)]
+        [HttpGet("GetMyOrders")]
+        [ProducesResponseType(typeof(List<Order>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<User>> GetAllCoffees(int userId)
+        public async Task<ActionResult<User>> GetMyOrders(int userId)
         {
             try
             {
-                var result = await _cartServices.GetCartItems(userId);
+                var result = await _orderServices.ViewAllMyOrders(userId);
                 return Ok(result);
             }
             catch (EmptyListException ele)
@@ -96,16 +94,15 @@ namespace CoffeeStoreManagementApp.Controllers
 
         }
 
-
-        [HttpDelete("DeleteCartItem")]
-        [ProducesResponseType(typeof(CartItem), StatusCodes.Status200OK)]
+        [HttpGet("GetMyActiveOrders")]
+        [ProducesResponseType(typeof(List<Order>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<User>> DeleteCartItem(int cartItemId)
+        public async Task<ActionResult<User>> GetMyActiveOrders(int userId)
         {
             try
             {
-                var result = await _cartServices.DeleteCartItem(cartItemId);
+                var result = await _orderServices.ViewMyActiveOrders(userId);
                 return Ok(result);
             }
             catch (EmptyListException ele)
@@ -120,32 +117,6 @@ namespace CoffeeStoreManagementApp.Controllers
             }
 
         }
-
-
-        [HttpPost("CheckoutCart")]
-        [ProducesResponseType(typeof(Order), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<User>> CheckoutCart(int userId)
-        {
-            try
-            {
-                var result = await _cartServices.CheckoutCart(userId);
-                return Ok(result);
-            }
-            catch (EmptyListException ele)
-            {
-
-                return Unauthorized(new ErrorModel(401, ele.Message));
-            }
-            catch (Exception ex)
-            {
-
-                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(500, ex.Message)); ;
-            }
-
-        }
-
 
 
     }
