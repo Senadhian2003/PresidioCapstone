@@ -3,7 +3,7 @@ import axios from 'axios';
 import {useState,useEffect} from 'react';
 import Navbar from "../Navbar/Navbar";
 import "./Products.css";
-import Cappuccino from "../../Images/User/Cappuccino.webp";
+import Cappuccino from "../../../Images/User/Cappuccino.webp";
 import Card from "./Card";
 function Products() {
   const [query, setQuery] = useState("");

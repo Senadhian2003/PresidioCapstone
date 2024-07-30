@@ -1,4 +1,5 @@
 ﻿using CoffeeStoreManagementApp.Models;
+using CoffeeStoreManagementApp.Models.DTO;
 
 namespace CoffeeStoreManagementApp.Services.Interfaces
 {
@@ -12,5 +13,6 @@ namespace CoffeeStoreManagementApp.Services.Interfaces
         public Task<List<Order>> ViewMyActiveOrders(int userId);
 
         public Task<List<Order>> ViewAllMyOrders(int userId);
+        public Task<OrderDetailStatus> UpdateOrderDetail(UpdateOrderDetailDTO dto);
     }
 }

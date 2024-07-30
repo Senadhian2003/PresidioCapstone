@@ -47,7 +47,7 @@ namespace CoffeeStoreManagementApp.Repositories
 
         public async Task<IEnumerable<Order>> GetAll()
         {
-            var orders = await _context.Orders.Include(o=>o.OrderDetails).ToListAsync();
+            var orders = await _context.Orders.Include(o=>o.OrderDetails).ThenInclude(od=>od.OrderDetailStatuses).ToListAsync();
 
             if (orders.Any())
             {

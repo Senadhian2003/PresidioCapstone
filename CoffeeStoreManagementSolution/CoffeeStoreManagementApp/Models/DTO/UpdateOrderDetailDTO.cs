@@ -3,7 +3,9 @@
     public class UpdateOrderDetailDTO
     {
 
-        public int OrderDetailId { get; set; }
+        public int OrderId { get; set; }
+
+        public int StatusId { get; set; }
 
         public string Status { get; set; }
 

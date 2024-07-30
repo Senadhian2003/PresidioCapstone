@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import "./ProductDetail.css";
-import Cappuccino from "../../Images/User/M107777.webp";
+import Cappuccino from "../../../Images/User/M107777.webp";
 
 function ProductDetail() {
   const [productDetail, setProductDetail] = useState(null);

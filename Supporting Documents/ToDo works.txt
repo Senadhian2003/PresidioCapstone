@@ -1,0 +1,3 @@
+Covert very long decimal to floor 2 digits
+Error codes are wrong
+Add waitingtime for product detail button and increment decrement in cart card

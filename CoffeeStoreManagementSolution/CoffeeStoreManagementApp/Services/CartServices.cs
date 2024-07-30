@@ -13,12 +13,14 @@ namespace CoffeeStoreManagementApp.Services
         private readonly IRepository<int, CartItem> _cartItemRepository;
         private readonly IRepository<int, Order> _orderRepository;
         private readonly IRepository<int, OrderDetail> _orderDetailRepository;
-        public CartServices(IRepository<int, Coffee> coffeeRepository, IRepository<int,Cart> cartRepository, IRepository<int, CartItem> cartItemRepository, IRepository<int, OrderDetail> orderDetailRepository, IRepository<int, Order> orderRepository) {
+        private readonly IRepository<int, OrderDetailStatus> _orderDetailStatusRepository;
+        public CartServices(IRepository<int, Coffee> coffeeRepository, IRepository<int,Cart> cartRepository, IRepository<int, CartItem> cartItemRepository, IRepository<int, OrderDetail> orderDetailRepository, IRepository<int, OrderDetailStatus> orderDetailStatusRepository, IRepository<int, Order> orderRepository) {
         
             _cartRepository = cartRepository;
             _cartItemRepository = cartItemRepository;
             _orderRepository = orderRepository;
             _orderDetailRepository = orderDetailRepository;
+            _orderDetailStatusRepository = orderDetailStatusRepository;
             _coffeeRepository = coffeeRepository;
         }
 
@@ -43,7 +45,7 @@ namespace CoffeeStoreManagementApp.Services
                 existingItem.CartItemPrice = existingItem.Quantity * existingItem.PricePerCartItem;
                 if (existingItem.Quantity > 2)
                 {
-                    existingItem.Discount = existingItem.CartItemPrice * 0.1;
+                    existingItem.Discount = Math.Round(existingItem.CartItemPrice * 0.1, 2);
                 }
                 await _cartItemRepository.Update(existingItem);
                 return existingItem;
@@ -178,21 +180,28 @@ namespace CoffeeStoreManagementApp.Services
                 total += cartItem.FinalAmount;
 
                 count += cartItem.Quantity;
-                
-                for(int i = 0; i < cartItem.Quantity; i++)
+                OrderDetail orderDetail = new OrderDetail
                 {
-                    OrderDetail orderDetail = new OrderDetail
-                    {
-                        CoffeeName = cartItem.Coffee.Name,
-                        AddOns = cartItem.AddOns,
-                        Discount = cartItem.Discount,
-                        OrderId = order.OrderId,
-                        Price = cartItem.CartItemPrice,
-
-                        Status = "Pending"
-                        
+                    OrderId = order.OrderId,
+                    CoffeeName = cartItem.Coffee.Name,
+                    AddOns = cartItem.AddOns,
+                    PricePerItem = cartItem.PricePerCartItem,
+                    Quanitty = cartItem.Quantity,
+                    Price = cartItem.CartItemPrice,
+                    Discount = cartItem.Discount
+                    
                 };
-                    await _orderDetailRepository.Add(orderDetail);
+                await _orderDetailRepository.Add(orderDetail);
+
+                for (int i = 0; i < cartItem.Quantity; i++)
+                {
+                    OrderDetailStatus orderDetailStatus = new OrderDetailStatus
+                    {
+                        OrderDetailId = orderDetail.OrderDetailId,
+                        Status = "Pending"
+                    };
+                    
+                    await _orderDetailStatusRepository.Add(orderDetailStatus);
 
                 }
                 

@@ -11,6 +11,7 @@ select * from Toppings
 
 select * from orders
 select * from OrderDetails
+select * from OrderDetailStatuses
 
 
 
@@ -19,6 +20,6 @@ select * from OrderDetails
 
 
 insert into carts (UserId, Total) Values (4,0)
-Delete from  Orders where OrderId=1 or OrderId=2;
+Delete from  OrderDetailStatuses;
 
 

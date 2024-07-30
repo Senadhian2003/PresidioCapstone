@@ -18,13 +18,17 @@ namespace CoffeeStoreManagementApp.Models
 
         public string AddOns { get; set; }
 
+        public int Quanitty { get; set; }
+
+        public double PricePerItem { get; set; }
+
         public double Price { get; set; }
 
         public double Discount { get; set; }
 
         public double FinalAmount => Price - Discount;
 
-        public string? Status { get; set; }
+        public ICollection<OrderDetailStatus> OrderDetailStatuses { get; set; }
 
 
 

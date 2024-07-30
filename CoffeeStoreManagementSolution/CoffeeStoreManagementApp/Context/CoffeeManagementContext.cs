@@ -44,6 +44,8 @@ namespace CoffeeStoreManagementApp.Context
 
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
+        public DbSet<OrderDetailStatus> OrderDetailStatuses { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

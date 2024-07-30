@@ -1,13 +1,13 @@
 import React from 'react'
 import Navbar from '../Navbar/Navbar'
 import './Home.css'
-import Logo from '../../Images/User/logo.png'
-import SearchImg from '../../Images/User/Search.png'
-import CustomizeImg from '../../Images/User/feedback.png'
-import HeartImg from '../../Images/User/heart.png'
-import CommitmentImg from '../../Images/User/Commitment.png'
-import CoffeeImg from '../../Images/User/CoffeeImg.png'
-import SocMeds from '../../Images/User/socmeds.png'
+import Logo from '../../../Images/User/logo.png'
+import SearchImg from '../../../Images/User/Search.png'
+import CustomizeImg from '../../../Images/User/feedback.png'
+import HeartImg from '../../../Images/User/heart.png'
+import CommitmentImg from '../../../Images/User/Commitment.png'
+import CoffeeImg from '../../../Images/User/CoffeeImg.png'
+import SocMeds from '../../../Images/User/socmeds.png'
 
 function Home() {
   return (

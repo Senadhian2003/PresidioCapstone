@@ -3,7 +3,7 @@
 }
 
 .landing-page {
-    background-image: url("../../Images/User/LandingImage.png");
+    background-image: url("../../../Images/User/LandingImage.png");
     background-position: top right;
     background-repeat: no-repeat;
     background-size: contain;

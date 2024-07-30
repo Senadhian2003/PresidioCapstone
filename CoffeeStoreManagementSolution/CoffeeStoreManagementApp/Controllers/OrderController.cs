@@ -4,6 +4,7 @@ using CoffeeStoreManagementApp.Models;
 using CoffeeStoreManagementApp.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using CoffeeStoreManagementApp.Services;
 
 namespace CoffeeStoreManagementApp.Controllers
 {
@@ -117,6 +118,31 @@ namespace CoffeeStoreManagementApp.Controllers
             }
 
         }
+
+        [HttpPut("UpdateOrderDetails")]
+        [ProducesResponseType(typeof(CartItem), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<User>> UpdateOrderDetails(UpdateOrderDetailDTO updateOrderDetailDTO)
+        {
+            try
+            {
+                var result = await _orderServices.UpdateOrderDetail(updateOrderDetailDTO);
+                return Ok(result);
+            }
+            catch (EmptyListException ele)
+            {
+
+                return Unauthorized(new ErrorModel(401, ele.Message));
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(500, ex.Message)); ;
+            }
+
+        }
+
 
 
     }

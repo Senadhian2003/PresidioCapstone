@@ -1,7 +1,7 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import './Modal.css'
-function ConfirmationModal({ coffeeName, addOns, onRepeatOrder, onCustomize, show, setShowModal }) {
+function ConfirmationModal({coffeeId, coffeeName, addOns, onRepeatOrder, onCustomize, show, setShowModal }) {
 
   return (
     <div
@@ -14,7 +14,9 @@ function ConfirmationModal({ coffeeName, addOns, onRepeatOrder, onCustomize, sho
         </Modal.Header>
         <Modal.Body>{addOns}</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={onCustomize}>
+          <Button variant="secondary" onClick={()=>{
+            onCustomize(coffeeId)
+          }}>
             Ill choose again
           </Button>
           <Button variant="secondary" onClick={onRepeatOrder}>

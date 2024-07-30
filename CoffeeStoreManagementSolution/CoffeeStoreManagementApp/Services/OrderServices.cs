@@ -10,10 +10,12 @@ namespace CoffeeStoreManagementApp.Services
     {
         private readonly IRepository<int, Order> _orderRepository;
         private readonly IRepository<int, OrderDetail> _orderDetailRepository;
-        public OrderServices(IRepository<int, Order> orderRepository, IRepository<int, OrderDetail> orderDetailRepository) { 
+        private readonly IRepository<int, OrderDetailStatus> _orderDetailStatusRepository;
+        public OrderServices(IRepository<int, Order> orderRepository, IRepository<int, OrderDetail> orderDetailRepository, IRepository<int, OrderDetailStatus> orderDetailStatusRepository) { 
         
             _orderRepository = orderRepository;
             _orderDetailRepository = orderDetailRepository;
+            _orderDetailStatusRepository = orderDetailStatusRepository;
 
         }
 
@@ -76,17 +78,20 @@ namespace CoffeeStoreManagementApp.Services
             return myActiveOrders.ToList();
         }
 
-        public async Task<List<OrderDetail>> UpdateOrderDetail(UpdateOrderDetailDTO dto)
+        public async Task<OrderDetailStatus> UpdateOrderDetail(UpdateOrderDetailDTO dto)
         {
-            var orderDetail = await _orderDetailRepository.GetByKey(dto.OrderDetailId);
+            
 
-            if (orderDetail == null)
+            Order order = await _orderRepository.GetByKey(dto.OrderId);
+
+            if (order == null)
             {
-                throw new ElementNotFoundException("Order Detail");
+                throw new ElementNotFoundException("Order");
             }
 
-            Order order = await _orderRepository.GetByKey(orderDetail.OrderId);
-            string currentStatus = orderDetail.Status;
+            OrderDetailStatus orderDetailStatus = await _orderDetailStatusRepository.GetByKey(dto.StatusId);
+
+            string currentStatus = orderDetailStatus.Status;
 
             if(currentStatus == "Collected" && dto.Status == "Collected")
             {
@@ -95,7 +100,7 @@ namespace CoffeeStoreManagementApp.Services
 
             if (dto.Status == "Collected")
             {
-                orderDetail.Status = dto.Status;
+                orderDetailStatus.Status = dto.Status;
                 order.ItemsServed += 1;
                 if(order.ItemsServed == order.TotalItems)
                 {
@@ -103,7 +108,7 @@ namespace CoffeeStoreManagementApp.Services
                     await _orderRepository.Update(order);
                 }
 
-                await _orderDetailRepository.Update(orderDetail);
+                await _orderDetailStatusRepository.Update(orderDetailStatus);
 
 
             }
@@ -116,12 +121,13 @@ namespace CoffeeStoreManagementApp.Services
                     await _orderRepository.Update(order) ;
                 }
 
-                orderDetail.Status = dto.Status;
+                orderDetailStatus.Status = dto.Status;
 
+                await _orderDetailStatusRepository.Update(orderDetailStatus) ;
 
             }
 
-            throw new NotImplementedException();
+            return orderDetailStatus;
 
 
         }

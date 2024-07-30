@@ -1,14 +1,15 @@
 import React, {useState, useEffect, useRef } from 'react'
-import Cappuccino from "../../Images/User/Cappuccino.webp";
+import Cappuccino from "../../../Images/User/Cappuccino.webp";
 import ConfirmationModal from './ConfirmationModal';
-import CloseImg from "../../Images/User/close.png";
+import CloseImg from "../../../Images/User/close.png";
 import './Cart.css'
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 function CartCard(props) {
     const {data, getCartItems} =props; 
     const [quantity, setQuantity] = useState(data.quantity);
     const [showModal, setShowModal] = useState(false);
-   
+    const navigate = useNavigate();
     useEffect(() => {
         if (quantity !== data.quantity) {
             updateCartItemQuantity();
@@ -53,12 +54,28 @@ function CartCard(props) {
         // You may want to call an API to update the cart on the server
       };
     
-      const handleCustomize = () => {
+      const handleCustomize = (productId) => {
         setShowModal(false);
-        alert("Navigate to customize page")
+        navigate(`/productDetail/${productId}`);
         // Navigate to customize page
         // You might want to use React Router for this
       };
+
+
+  let deleteCartItem = (cartItemId)=>{
+
+    axios.delete(`http://localhost:5007/api/Cart/DeleteCartItem?cartItemId=${cartItemId}`)
+    .then((response)=>{
+      console.log(response.data);
+      alert("Cart item deleted")
+      getCartItems()
+    })
+    .catch((error)=>{
+      console.log("Error : " +error)
+    })
+
+  }
+    
 
   return (
     <div>
@@ -67,7 +84,9 @@ function CartCard(props) {
                   <div class="d-flex justify-content-end">
                     <img
                       class="close-img"
-                    
+                      onClick={()=>{
+                        deleteCartItem(data.cartItemId)
+                      }}
                       height="18px"
                       width="18px"
                       src={CloseImg}
@@ -138,6 +157,7 @@ function CartCard(props) {
 
                 {showModal && (
         <ConfirmationModal
+          coffeeId={data.coffee.id}
           coffeeName={data.coffee.name}
           addOns={data.addOns}
           onRepeatOrder={handleRepeatOrder}

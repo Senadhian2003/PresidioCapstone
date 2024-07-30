@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router-dom';
 import Navbar from "../Navbar/Navbar";
 import CartCard from "./CartCard";
 import "./Cart.css";
@@ -10,6 +11,11 @@ function Cart() {
   const [data, setData] = useState([])
   const [total, setTotal] = useState(0)
   const [discount, setDiscount] = useState(0)
+  const [userId, setUserId] = useState(4);
+  const navigate = useNavigate();
+
+
+  
   useEffect(()=>{
 
    getCartItems()
@@ -28,7 +34,7 @@ function Cart() {
         newDiscount += item.discount;
       });
       setTotal(newTotal);
-    setDiscount(newDiscount);
+      setDiscount(newDiscount);
     })
     .catch((error)=>{
       console.log(error);
@@ -36,6 +42,23 @@ function Cart() {
 
   }
 
+
+  let checkout = ()=>{
+
+    // console.log("CLICKED")
+
+    axios.post(`http://localhost:5007/api/Cart/CheckoutCart?userId=${userId}`)
+    .then((response)=>{
+      console.log(response.data)
+      alert("Order placed successfully")
+      navigate('/activeOrderHistory')
+    })
+    .catch((error)=>{
+      console.log("Error : "+ error);
+    })
+
+
+  }
 
   return (
     <div className="cart">
@@ -89,7 +112,7 @@ function Cart() {
 
                   <button
                     class="btn blue"
-                    onclick="checkout()"
+                    onClick={checkout}
                     id="checkout-btn"
                     style={{ width: "100%" }}
                   >

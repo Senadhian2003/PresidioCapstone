@@ -1,13 +1,13 @@
 import React from 'react'
 import './Navbar.css'
-import Logo from '../../Images/User/logo.png'
+import Logo from '../../../Images/User/logo.png'
 function Navbar() {
   return (
     <div>
       
       <nav class="navbar navbar-expand-lg">
           <div class="container">
-            <a class="navbar-brand d-flex" style={{marginTop: "8px"}} href="./Home.html">
+            <a class="navbar-brand d-flex" style={{marginTop: "8px"}} href="/">
               <img src={Logo} alt="Logo" />
               <p
                 class="poppins-bold"
@@ -37,10 +37,10 @@ function Navbar() {
                   <a class="nav-link" href="/products">Purchase</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="./Cart.html">Cart</a>
+                  <a class="nav-link" href="/Cart">Cart</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#">Order History</a>
+                  <a class="nav-link" href="/OrderHistory">Order History</a>
                 </li>
                 <li class="nav-item" id="authentication">
                  

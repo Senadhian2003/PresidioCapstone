@@ -1,5 +1,5 @@
 import React from 'react'
-import Cappuccino from "../../Images/User/Cappuccino.webp";
+import Cappuccino from "../../../Images/User/Cappuccino.webp";
 import "./Card.css";
 function Card(props) {
   return (

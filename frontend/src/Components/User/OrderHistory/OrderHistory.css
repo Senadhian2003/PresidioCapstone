@@ -1,0 +1,197 @@
+
+.dashboard-main{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px
+}
+
+.dashboard-main {
+    margin-top: 4rem;
+    padding: 2%;
+    background-color: white;
+    margin: 5px 3px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    border-radius: 10px;
+  }
+  .dashboard-main .input-text {
+    font-size: 12px;
+    font-size: max(16px, 1em);
+    font-family: "Poppins", sans-serif;
+    padding: 0.25em 0.5em;
+    background-color: #f7f4f4;
+    border: 1.5px solid white;
+    border-radius: 5px;
+    background-position: 10px center;
+    outline: none;
+    background-repeat: no-repeat;
+    background-image: url("../../../Images/User/SearchInput.png");
+    padding-left: 40px;
+    height: 38px;
+    width: 15.02vw !important;
+  }
+  .dashboard-main .nav-items {
+    display: flex;
+    gap: 10px; /* Adjust the gap between the paragraph elements */
+  }
+  .dashboard-main .nav-items a {
+    text-decoration: none;
+    color: #292D32;
+  }
+  .dashboard-main .nav-items a.active {
+    color: #16C098;
+  }
+  .dashboard-main .nav-items input.switch:checked {
+    background-color: #5932EA;
+  }
+  .dashboard-main table thead td {
+    color: #B5B7C0;
+  }
+  .dashboard-main table tbody tr td {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .dashboard-main table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .dashboard-main table tbody .hover-bg:hover td {
+    background-color: #f5f5f5;
+  }
+  .dashboard-main table tbody .active-bg td {
+    background-color: #5932EA;
+    color: white;
+  }
+  .dashboard-main table tfoot td {
+    border-bottom: none;
+    color: #B5B7C0;
+  }
+  .dashboard-main table tfoot td span {
+    color: black;
+    height: 25px;
+    width: 25px;
+    background-color: #F5F5F5;
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 3px;
+    padding-left: 8px;
+    margin: 5px;
+  }
+  .dashboard-main table tfoot td span.active {
+    color: black;
+    height: 25px;
+    width: 25px;
+    background-color: #F5F5F5;
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 3px;
+    padding-left: 8px;
+    margin: 5px;
+    background-color: #5932EA;
+  }
+  .dashboard-main table.Detail {
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .nav-table {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .Pending {
+    background-color: #FAF0F3;
+    color: #D12953;
+    text-align: center;
+    border-radius: 8px;
+    padding: 0.5%;
+    font-size: 12px;
+    width: 70px;
+    margin: 5px;
+  }
+
+  .Ready {
+    background-color: #ff9800;
+    color: white;
+    text-align: center;
+    border-radius: 8px;
+    padding: 0.5%;
+    font-size: 12px;
+    width: 70px;
+    margin: 5px;
+  }
+  
+  .Collected {
+    background-color: #E1FCEF;
+    color: #14804A;
+    text-align: center;
+    border-radius: 8px;
+    padding: 0.5%;
+    font-size: 12px;
+    width: 70px;
+    margin: 5px;
+  }
+  
+  .return-btn {
+    background-color: #5932EA;
+    color: white;
+    font-size: 12px;
+    height: 30px;
+  }
+  
+  .return-btn:hover {
+    background-color: #5932EA;
+    color: white;
+  }
+  
+  
+  
+  .stock-input-field::-webkit-inner-spin-button,
+  .stock-input-field::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  .pagination-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .pagination, .pagination-ellipsis, .pagination-arrow {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 30px;
+    height: 30px;
+    margin: 0 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+  }
+  
+  .pagination:hover, .pagination-arrow:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .pagination.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .pagination-arrow {
+    font-weight: bold;
+  }
+  
+  .pagination-arrow.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .pagination-ellipsis {
+    cursor: default;
+  }
+  
+  .pagination-active{
+    background-color: #006241 !important;
+    color: white !important;
+  }

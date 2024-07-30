@@ -82,6 +82,7 @@ namespace CoffeeStoreManagementApp
             builder.Services.AddScoped<IRepository<int,CartItem>, CartItemRepository>();
             builder.Services.AddScoped<IRepository<int, Order>, OrderRepository>();
             builder.Services.AddScoped<IRepository<int, OrderDetail>, OrderDetailRepository>();
+            builder.Services.AddScoped<IRepository<int, OrderDetailStatus>, OrderDetailStatusRepository>();
             #endregion
 
             #region
