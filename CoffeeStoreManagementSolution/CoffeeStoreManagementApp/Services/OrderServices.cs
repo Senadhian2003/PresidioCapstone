@@ -76,39 +76,55 @@ namespace CoffeeStoreManagementApp.Services
             return myActiveOrders.ToList();
         }
 
-        //public async Task<List<OrderDetail>> UpdateOrderDetail(UpdateOrderDetailDTO dto)
-        //{
-        //    var orderDetail = await _orderDetailRepository.GetByKey(dto.OrderDetailId);
+        public async Task<List<OrderDetail>> UpdateOrderDetail(UpdateOrderDetailDTO dto)
+        {
+            var orderDetail = await _orderDetailRepository.GetByKey(dto.OrderDetailId);
 
-        //    if (orderDetail == null)
-        //    {
-        //        throw new ElementNotFoundException("Order Detail");
-        //    }
+            if (orderDetail == null)
+            {
+                throw new ElementNotFoundException("Order Detail");
+            }
 
-        //    Order order = await _orderRepository.GetByKey(orderDetail.OrderId);
-        //    string currentStatus = orderDetail.status;
+            Order order = await _orderRepository.GetByKey(orderDetail.OrderId);
+            string currentStatus = orderDetail.Status;
 
-        //    if(dto.Status == "Collected")
-        //    {
-                
-        //        orderDetail.QuantityServed += 1;
-        //        order.ItemsServed += 1;
+            if(currentStatus == "Collected" && dto.Status == "Collected")
+            {
+                throw new OrderAlreadyCollectedException();
+            }
 
-        //        if(order.ItemsServed == order.TotalItems)
-        //        {
-        //            order.OrderStatus = "Collected";
-        //            await _orderRepository.Update(order);
-        //        }
+            if (dto.Status == "Collected")
+            {
+                orderDetail.Status = dto.Status;
+                order.ItemsServed += 1;
+                if(order.ItemsServed == order.TotalItems)
+                {
+                    order.OrderStatus = "Collected";
+                    await _orderRepository.Update(order);
+                }
+
+                await _orderDetailRepository.Update(orderDetail);
 
 
+            }
+            else
+            {
+                if(currentStatus== "Collected")
+                {
+                    order.ItemsServed -= 1;
+                    order.OrderStatus = "Pending";
+                    await _orderRepository.Update(order) ;
+                }
+
+                orderDetail.Status = dto.Status;
 
 
-        //    }
+            }
 
-        //    throw new NotImplementedException();
-            
+            throw new NotImplementedException();
 
-        //}
+
+        }
 
 
 

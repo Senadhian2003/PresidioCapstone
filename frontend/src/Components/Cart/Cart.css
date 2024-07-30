@@ -1,0 +1,129 @@
+.cart{
+    text-align: start;
+}
+
+.cutomize-text{
+    color: #006241;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.cart .cart-item {
+    width: 100%;
+    padding: 2%;
+    margin-bottom: 50px;
+    border-radius: 0 8px 8px 0;
+    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+    transition: box-shadow 0.5s;
+  }
+
+  .cart .cart-image {
+    
+    height: 100px;
+    width: 100px;
+    border-radius: 25px;
+    margin-left: 30px;
+    background-image: url('../../Images/User/Cappuccino.webp');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+  }
+
+  .cart .cart-item .close-img {
+    visibility: hidden;
+  }
+  .cart .cart-item:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  }
+  .cart .cart-item:hover .close-img {
+    visibility: visible;
+  }
+  .cart .cart-item p {
+    margin-bottom: 5px;
+  }
+  .cart .cart-item .title {
+    font-size: 24px;
+    font-weight: 800;
+  }
+  .cart .cart-item .author {
+    font-size: 14px;
+    font-weight: 500;
+    color: #5E6282;
+  }
+  .cart .cart-item .price {
+    font-size: 24px;
+    font-weight: 800;
+  }
+  .cart .checkout-container {
+    position: sticky;
+    top: 20px;
+  }
+  .cart .checkout-container .checkout-card {
+    width: 100%;
+    border: 1px solid black;
+    padding: 3%;
+    background-color: #F8F8F8;
+    position: sticky;
+  }
+  .cart .checkout-container .checkout-card .heading {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .cart .checkout-container .checkout-card p.right-text {
+    color: #5E6282;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  
+  .stock-input {
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .stock-btn {
+    background-color: #006241;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s ease;
+    width: 30px;
+    height: 20px;
+  }
+  
+  .plus {
+    border-radius: 0px 5px 5px 0px;
+  }
+  
+  .minus {
+    border-radius: 5px 0px 0px 5px;
+  }
+  
+  .stock-input-field {
+    width: 40px;
+    height: 30px;
+    text-align: center;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    padding: 0;
+    /* Disable increment/decrement arrows */
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+  
+  .stock-input-field::-webkit-inner-spin-button,
+  .stock-input-field::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .discount{
+    font-size: 14px;
+    font-weight: 400;
+    color: #006241;
+  }

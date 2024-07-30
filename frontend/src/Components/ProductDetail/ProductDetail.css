@@ -95,7 +95,7 @@
 }
 
 
-.btn:hover {
+.btn.green:hover {
     background-color: white !important;
     color: black !important;
     /* border-color: var(--bs-btn-hover-border-color); */

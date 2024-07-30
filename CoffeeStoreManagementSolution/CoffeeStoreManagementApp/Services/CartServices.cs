@@ -179,21 +179,27 @@ namespace CoffeeStoreManagementApp.Services
 
                 count += cartItem.Quantity;
                 
-                OrderDetail orderDetail = new OrderDetail
+                for(int i = 0; i < cartItem.Quantity; i++)
                 {
-                    CoffeeName = cartItem.Coffee.Name,
-                    AddOns = cartItem.AddOns,
-                    Discount = cartItem.Discount,
-                    OrderId = order.OrderId,
-                    Price = cartItem.CartItemPrice,
-                    Quantity = cartItem.Quantity,
-                    status = "Pending"
+                    OrderDetail orderDetail = new OrderDetail
+                    {
+                        CoffeeName = cartItem.Coffee.Name,
+                        AddOns = cartItem.AddOns,
+                        Discount = cartItem.Discount,
+                        OrderId = order.OrderId,
+                        Price = cartItem.CartItemPrice,
 
+                        Status = "Pending"
+                        
                 };
+                    await _orderDetailRepository.Add(orderDetail);
+
+                }
+                
 
                 await DeleteCartItem(cartItem.CartItemId);
 
-                await _orderDetailRepository.Add(orderDetail);
+               
 
 
             }
