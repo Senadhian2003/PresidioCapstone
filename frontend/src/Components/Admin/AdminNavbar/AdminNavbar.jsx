@@ -34,10 +34,10 @@ function AdminNavbar() {
             >
               <ul class="navbar-nav" style={{fontSize: "14px", textAlign:'start'}}>
                 <li class="nav-item">
-                  <a class="nav-link" href="/products">Stock Maintenance</a>
+                  <a class="nav-link" href="/StockMaintenance">Stock Maintenance</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/Cart">Add Employee</a>
+                  <a class="nav-link" href="/EmployeeRegister">Add Employee</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/AdminActiveOrder">Order History</a>

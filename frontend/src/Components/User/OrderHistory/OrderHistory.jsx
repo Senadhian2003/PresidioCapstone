@@ -166,8 +166,8 @@ function OrderHistory() {
                         >
                           <td>{order.orderId}</td>
                           <td>{order.timeOfOrder.slice(0,10)}</td>
-                          <td>{order.totalItems}</td>
-                          <td>{order.totalPrice}</td>
+                          <td className="text-center">{order.totalItems}</td>
+                          <td className="text-center">{order.totalPrice}</td>
                         </tr>
                         <tr>
                           <td colSpan="4" className="p-0">

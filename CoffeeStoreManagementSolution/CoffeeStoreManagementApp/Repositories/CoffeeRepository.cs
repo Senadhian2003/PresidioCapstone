@@ -41,7 +41,7 @@ namespace CoffeeStoreManagementApp.Repositories
     .Include(c => c.AllowedMilks)
         .ThenInclude(cm => cm.Milk)
     .Include(c => c.AllowedCoffeeNonDairyAlternatives)
-        .ThenInclude(cnda => cnda.NonDiaryAlternative)
+        .ThenInclude(cnda => cnda.NonDairyAlternative)
     .Include(c => c.AllowedSauces)
         .ThenInclude(cs => cs.Sauce)
     .Include(c => c.AllowedToppings)

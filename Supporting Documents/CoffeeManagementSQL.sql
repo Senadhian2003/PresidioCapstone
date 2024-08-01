@@ -13,6 +13,9 @@ select * from orders
 select * from OrderDetails
 select * from OrderDetailStatuses
 
+select * from employees
+select * from employeeCredentials
+
 
 
 

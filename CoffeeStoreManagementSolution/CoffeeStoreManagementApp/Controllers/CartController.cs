@@ -3,6 +3,7 @@ using CoffeeStoreManagementApp.Models;
 using CoffeeStoreManagementApp.Models.DTO;
 using CoffeeStoreManagementApp.Services;
 using CoffeeStoreManagementApp.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,7 +22,7 @@ namespace CoffeeStoreManagementApp.Controllers
             _cartServices = cartServices;
         }
 
-
+        //[Authorize(Roles = "User")]
         [HttpPost("AddCoffeeToCart")]
         [ProducesResponseType(typeof(CartItem), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]

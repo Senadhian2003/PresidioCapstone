@@ -209,26 +209,26 @@ function ProductDetail() {
                   <button
                   style={{border:"none"}}
                     className={`plus-jakarta-sans-Medium product-detail-size-button ${
-                      selectedNonDairyAlternative === element.nonDiaryAlternative.name ? "product-detail-size-price-active" : ""
+                      selectedNonDairyAlternative === element.nonDairyAlternative.name ? "product-detail-size-price-active" : ""
                     }`}
                     onClick={() => {
 
-                      if(selectedNonDairyAlternative === element.nonDiaryAlternative.name){
+                      if(selectedNonDairyAlternative === element.nonDairyAlternative.name){
 
                         setSelectedNonDairyAlternative(null)
                         setNonDairyPrice(0)
                       }
                       else{
-                        setSelectedNonDairyAlternative(element.nonDiaryAlternative.name)
-                        setNonDairyPrice(element.nonDiaryAlternative.price)
+                        setSelectedNonDairyAlternative(element.nonDairyAlternative.name)
+                        setNonDairyPrice(element.nonDairyAlternative.price)
                       }
 
                     }}
                   >
-                    {element.nonDiaryAlternative.name}
+                    {element.nonDairyAlternative.name}
                   </button>
                   <p className="poppins-medium product-detail-size-price">
-                    <span className="plus-jakarta-sans-Bold">${element.nonDiaryAlternative.price}</span>
+                    <span className="plus-jakarta-sans-Bold">${element.nonDairyAlternative.price}</span>
                   </p>
                 </div>
               ))}

@@ -9,6 +9,8 @@
 
         public string Description { get; set; }
 
+        public int IsAvailable { get; set; }
+
         public int MaxAllowedSauces { get; set; }
         public int MaxAllowedToppings { get; set; }
 

@@ -14,6 +14,8 @@ namespace CoffeeStoreManagementApp.Context
 
         public DbSet<User> Users { get; set; }
         public DbSet<UserCredential> UserCredentials { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<EmployeeCredential> EmployeeCredentials { get; set; }
 
         public DbSet<Cart> Carts { get; set; }
 
@@ -26,7 +28,7 @@ namespace CoffeeStoreManagementApp.Context
 
         public DbSet<Capacity> Capacities { get; set; }
 
-        public DbSet<NonDiaryAlternative> NonDiaryAlternatives { get; set; }
+        public DbSet<NonDairyAlternative> NonDairyAlternatives { get; set; }
 
         public DbSet<Topping> Toppings { get; set; }
 
@@ -36,7 +38,7 @@ namespace CoffeeStoreManagementApp.Context
         public DbSet<CoffeeMilk> CoffeeMilks { get; set; }
 
         public DbSet<CoffeeCapacity> CoffeeCapacities { get; set; }
-        public DbSet<CoffeeNonDairyAlternative> CoffeeNonDairyAlternatives { get; set; }
+        public DbSet<NonDairyAlternative> CoffeeNonDairyAlternatives { get; set; }
 
         public DbSet<CoffeeTopping> CoffeeToppings { get; set; }
 
@@ -113,7 +115,7 @@ namespace CoffeeStoreManagementApp.Context
             .HasForeignKey(cs => cs.CoffeeId);
 
             modelBuilder.Entity<CoffeeNonDairyAlternative>()
-            .HasOne(cs => cs.NonDiaryAlternative)
+            .HasOne(cs => cs.NonDairyAlternative)
             .WithMany(s => s.AllowedCoffees)
             .HasForeignKey(cs => cs.NonDairyAlternativeId);
 
@@ -154,11 +156,11 @@ namespace CoffeeStoreManagementApp.Context
 
 
             modelBuilder.Entity<Coffee>().HasData(
-    new Coffee { Id = 1, Name = "Espresso", Description = "Strong black coffee", MaxAllowedSauces = 2, MaxAllowedToppings = 1, Price = 2.50 },
-    new Coffee { Id = 2, Name = "Cappuccino", Description = "Espresso with steamed milk foam", MaxAllowedSauces = 3, MaxAllowedToppings = 2, Price = 3.50 },
-    new Coffee { Id = 3, Name = "Latte", Description = "Espresso with steamed milk", MaxAllowedSauces = 3, MaxAllowedToppings = 2, Price = 3.75 },
-    new Coffee { Id = 4, Name = "Americano", Description = "Espresso diluted with hot water", MaxAllowedSauces = 2, MaxAllowedToppings = 1, Price = 3.00 },
-    new Coffee { Id = 5, Name = "Mocha", Description = "Espresso with chocolate and steamed milk", MaxAllowedSauces = 2, MaxAllowedToppings = 3, Price = 4.00 }
+    new Coffee { Id = 1, Name = "Espresso", Description = "Strong black coffee", MaxAllowedSauces = 2, MaxAllowedToppings = 1, Price = 2.50, IsAvailable=1 },
+    new Coffee { Id = 2, Name = "Cappuccino", Description = "Espresso with steamed milk foam", MaxAllowedSauces = 3, MaxAllowedToppings = 2, Price = 3.50, IsAvailable = 1 },
+    new Coffee { Id = 3, Name = "Latte", Description = "Espresso with steamed milk", MaxAllowedSauces = 3, MaxAllowedToppings = 2, Price = 3.75, IsAvailable = 1 },
+    new Coffee { Id = 4, Name = "Americano", Description = "Espresso diluted with hot water", MaxAllowedSauces = 2, MaxAllowedToppings = 1, Price = 3.00, IsAvailable = 1 },
+    new Coffee { Id = 5, Name = "Mocha", Description = "Espresso with chocolate and steamed milk", MaxAllowedSauces = 2, MaxAllowedToppings = 3, Price = 4.00, IsAvailable = 1 }
 );
 
             modelBuilder.Entity<Capacity>().HasData(
@@ -167,10 +169,10 @@ namespace CoffeeStoreManagementApp.Context
                 new Capacity { CapacityId = 3, CapacityName = "Tall", Price = 1.00 }
             );
 
-            modelBuilder.Entity<NonDiaryAlternative>().HasData(
-                new NonDiaryAlternative { Id = 1, Name = "Soy Milk", Price = 0.75 },
-                new NonDiaryAlternative { Id = 2, Name = "Almond Milk", Price = 0.75 },
-                new NonDiaryAlternative { Id = 3, Name = "Oat Milk", Price = 0.75 }
+            modelBuilder.Entity<NonDairyAlternative>().HasData(
+                new NonDairyAlternative { Id = 1, Name = "Soy Milk", Price = 0.75 },
+                new NonDairyAlternative { Id = 2, Name = "Almond Milk", Price = 0.75 },
+                new NonDairyAlternative { Id = 3, Name = "Oat Milk", Price = 0.75 }
             );
 
             modelBuilder.Entity<Milk>().HasData(

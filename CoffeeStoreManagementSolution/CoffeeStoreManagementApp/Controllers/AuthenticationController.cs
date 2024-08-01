@@ -13,10 +13,12 @@ namespace CoffeeStoreManagementApp.Controllers
     {
 
         private readonly IAuthService _authService;
+        private readonly IAdminAuthService _adminAuthService;
 
-        public AuthenticationController(IAuthService authService)
+        public AuthenticationController(IAuthService authService, IAdminAuthService adminAuthService)
         {
             _authService = authService;
+            _adminAuthService = adminAuthService;
         }
         [HttpPost("Login")]
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
@@ -74,5 +76,63 @@ namespace CoffeeStoreManagementApp.Controllers
                 return BadRequest(new ErrorModel(501, ex.Message));
             }
         }
+
+        [HttpPost("RegisterEmployee")]
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<User>> EmployeeRegister(UserRegisterDTO registerDTO)
+        {
+            try
+            {
+
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    return BadRequest(new ErrorModel(400, string.Join("; ", errors)));
+                }
+
+
+
+                Employee result = await _adminAuthService.Register(registerDTO);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new ErrorModel(501, ex.Message));
+            }
+        }
+
+        [HttpPost("EmployeeLogin")]
+        [ProducesResponseType(typeof(Employee), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<User>> AdminLogin(UserLoginDTO userLoginDTO)
+        {
+            try
+            {
+
+                if (!ModelState.IsValid)
+                {
+                    var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
+                    return BadRequest(new ErrorModel(400, string.Join("; ", errors)));
+                }
+
+                var result = await _adminAuthService.Login(userLoginDTO);
+                return Ok(result);
+            }
+            catch (UnauthorizedUserException uue)
+            {
+
+                return Unauthorized(new ErrorModel(401, uue.Message));
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(500, ex.Message)); ;
+            }
+
+        }
+
+
     }
 }

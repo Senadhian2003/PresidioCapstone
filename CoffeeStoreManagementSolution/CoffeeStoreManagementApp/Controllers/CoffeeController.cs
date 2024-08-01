@@ -69,6 +69,29 @@ namespace CoffeeStoreManagementApp.Controllers
 
         }
 
+        [HttpPut("UpdateCoffeeDetails")]
+        [ProducesResponseType(typeof(Coffee), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<User>> UpdateCoffeeDetails(UpdateCoffeeDTO updateCoffeeDTO)
+        {
+            try
+            {
+                var result = await _coffeeServices.UpdateCoffeDetails(updateCoffeeDTO);
+                return Ok(result);
+            }
+            catch (EmptyListException ele)
+            {
+
+                return Unauthorized(new ErrorModel(401, ele.Message));
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(500, ex.Message)); ;
+            }
+
+        }
 
     }
 }

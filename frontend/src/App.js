@@ -9,9 +9,20 @@ import ActiveOrderHistory from './Components/User/OrderHistory/ActiveOrderHistor
 import OrderHistory from './Components/User/OrderHistory/OrderHistory';
 import AdminOrder from './Components/Admin/OrderHistory/AdminActiveOrder';
 import AdminOrderHistory from './Components/Admin/OrderHistory/AdminOrderHistory';
+import StockMaintenance from './Components/Admin/StockMaintenance/StockMaintenance';
+import Login from './Components/User/Authentication/Login';
+import Register from './Components/User/Authentication/Register';
+import EmployeeLogin from './Components/Admin/Authentication/EmployeeLogin.jsx';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import EmployeeRegister from './Components/Admin/Authentication/EmployeeRegister.jsx';
+import AddNewCoffee from './Components/Admin/StockMaintenance/AddNewCoffee.jsx';
+
+
 function App() {
   return (
     <div className="App">
+       <ToastContainer autoClose={2000}/>
       <Router>
       <div>
         <Routes>
@@ -23,6 +34,12 @@ function App() {
           <Route path="/OrderHistory" element={<OrderHistory />} />
           <Route path="/AdminActiveOrder" element={<AdminOrder />} />
           <Route path="/AdminOrderHistory" element={<AdminOrderHistory />} />
+          <Route path="/StockMaintenance" element={<StockMaintenance />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/EmployeeLogin" element={<EmployeeLogin />} />
+          <Route path="/EmployeeRegister" element={<EmployeeRegister />} />
+          <Route path="/AddNewCoffee" element={<AddNewCoffee />} />
         </Routes>
       </div>
     </Router>

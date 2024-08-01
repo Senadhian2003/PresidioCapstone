@@ -5,6 +5,7 @@ using CoffeeStoreManagementApp.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CoffeeStoreManagementApp.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoffeeStoreManagementApp.Controllers
 {
@@ -20,7 +21,7 @@ namespace CoffeeStoreManagementApp.Controllers
             _orderServices = orderServices;
         }
 
-
+        //[Authorize(Roles = "Admin")]
         [HttpGet("GetAllOrders")]
         [ProducesResponseType(typeof(List<Order>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -45,7 +46,7 @@ namespace CoffeeStoreManagementApp.Controllers
 
         }
 
-
+        //[Authorize(Roles = "Admin,Manager,Barista")]
         [HttpGet("GetAllActiveOrders")]
         [ProducesResponseType(typeof(List<Order>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]

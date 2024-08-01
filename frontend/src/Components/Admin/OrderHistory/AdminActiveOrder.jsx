@@ -8,17 +8,38 @@ function AdminActiveOrder() {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-
+  const [searchInput, setSearchInput] = useState("");
+  const [filteredData, setFilteredData] = useState([]);
   useEffect(() => {
     fetchActiveOrders();
   }, []);
 
+  // useEffect(() => {
+  //   handleFilter();
+  // }, [data]);
+
+  useEffect(() => {
+    handleFilter();
+  }, [searchInput,data]);
+
+  const handleFilter = () => {
+    
+    console.log(data)
+    const filtered = data.filter((order) => {
+      
+      return (searchInput==="" || order.user.name.toLowerCase().includes(searchInput.toLowerCase()) || order.orderId.toString().toLowerCase().includes(searchInput.toLowerCase()) );
+    });
+    setFilteredData(filtered);
+    setCurrentPage(1); // Reset to first page
+  }
   const fetchActiveOrders = () => {
     axios
       .get(`http://localhost:5007/api/Order/GetAllActiveOrders`)
       .then((response) => {
         console.log(response.data);
         setData(response.data);
+        // setFilteredData(response.data)
+        handleFilter()
       })
       .catch((error) => {
         console.log("Error: " + error);
@@ -31,9 +52,9 @@ function AdminActiveOrder() {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentData = filteredData.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
   const renderPagination = () => {
     const pages = [];
@@ -99,6 +120,22 @@ function AdminActiveOrder() {
                    Order History
                   </a>
                 </div>
+
+                <div className="nav-items d-flex align-items-center">
+                  
+                  <input
+                    type="text"
+                    style={{ marginTop: "22px" }}
+                    id="searchInput"
+                    class="form-control input-text"
+                    placeholder="Search..."
+                    aria-label="Search"
+                    value={searchInput}
+                    onChange={(e)=> setSearchInput(e.target.value)}
+                    aria-describedby="basic-addon1"
+                  />
+                </div>
+
               </div>
 
               <div className="container-fluid">
@@ -110,7 +147,7 @@ function AdminActiveOrder() {
                   <thead>
                     <tr>
                       <td scope="col">Order ID</td>
-                      <td scope="col">Total no of Items</td>
+                      <td scope="col" className="text-center">Total no of Items</td>
                       <td scope="col" className="text-center">
                         Items Received
                       </td>
@@ -129,9 +166,9 @@ function AdminActiveOrder() {
                           aria-expanded="false"
                         >
                           <td>{order.orderId}</td>
-                          <td>{order.totalItems}</td>
-                          <td>{order.itemsServed}</td>
-                          <td>{order.orderStatus}</td>
+                          <td className="text-center">{order.totalItems}</td>
+                          <td className="text-center">{order.itemsServed}</td>
+                          <td className="text-center">{order.orderStatus}</td>
                         </tr>
                         <tr>
                           <td colSpan="4" className="p-0">
@@ -168,8 +205,8 @@ function AdminActiveOrder() {
                                           index==0 && (
 
                                             <>
-                                            <td rowSpan={detail.orderDetailStatuses.length} >{detail.coffeeName}</td>
-                                            <td rowSpan={detail.orderDetailStatuses.length} >{detail.addOns}</td>
+                                            <td rowSpan={detail.orderDetailStatuses.length} className="vertical-align-middle">{detail.coffeeName}</td>
+                                            <td rowSpan={detail.orderDetailStatuses.length} className="vertical-align-middle">{detail.addOns}</td>
                                             </>
 
                                           )
@@ -182,13 +219,13 @@ function AdminActiveOrder() {
                                         </td>
                                         <td className="text-center">
                                         <div className="d-flex">
-                                        <p class="Pending" onClick={()=>{
+                                        <p class="Pending cursor" onClick={()=>{
                                           updateOrderStatus(order.orderId,status.id, "Pending")
                                         }} >Pending</p>
-                                        <p class="Ready" onClick={()=>{
+                                        <p class="Ready cursor" onClick={()=>{
                                           updateOrderStatus(order.orderId,status.id, "Ready")
                                         }}>Ready</p>
-                                        <p class="Collected" onClick={()=>{
+                                        <p class="Collected cursor" onClick={()=>{
                                           updateOrderStatus(order.orderId,status.id, "Collected")
                                         }}>Collected</p></div>
                                         </td>

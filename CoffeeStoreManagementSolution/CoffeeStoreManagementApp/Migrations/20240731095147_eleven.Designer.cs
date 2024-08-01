@@ -4,6 +4,7 @@ using CoffeeStoreManagementApp.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoffeeStoreManagementApp.Migrations
 {
     [DbContext(typeof(CoffeeManagementContext))]
-    partial class CoffeeManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20240731095147_eleven")]
+    partial class eleven
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -369,7 +371,7 @@ namespace CoffeeStoreManagementApp.Migrations
 
                     b.HasIndex("NonDairyAlternativeId");
 
-                    b.ToTable("CoffeeNonDairyAlternative");
+                    b.ToTable("CoffeeNonDairyAlternatives");
 
                     b.HasData(
                         new
@@ -583,58 +585,6 @@ namespace CoffeeStoreManagementApp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CoffeeStoreManagementApp.Models.Employee", b =>
-                {
-                    b.Property<int>("EmployeeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("EmployeeId"), 1L, 1);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("EmployeeId");
-
-                    b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("CoffeeStoreManagementApp.Models.EmployeeCredential", b =>
-                {
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<byte[]>("HashKey")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<byte[]>("HashPassword")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.HasKey("Email");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("EmployeeCredentials");
-                });
-
             modelBuilder.Entity("CoffeeStoreManagementApp.Models.Milk", b =>
                 {
                     b.Property<int>("Id")
@@ -681,7 +631,7 @@ namespace CoffeeStoreManagementApp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CoffeeStoreManagementApp.Models.NonDairyAlternative", b =>
+            modelBuilder.Entity("CoffeeStoreManagementApp.Models.NonDiaryAlternative", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -698,7 +648,7 @@ namespace CoffeeStoreManagementApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NonDairyAlternative");
+                    b.ToTable("NonDiaryAlternatives");
 
                     b.HasData(
                         new
@@ -1047,7 +997,7 @@ namespace CoffeeStoreManagementApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CoffeeStoreManagementApp.Models.NonDairyAlternative", "NonDairyAlternative")
+                    b.HasOne("CoffeeStoreManagementApp.Models.NonDiaryAlternative", "NonDiaryAlternative")
                         .WithMany("AllowedCoffees")
                         .HasForeignKey("NonDairyAlternativeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1055,7 +1005,7 @@ namespace CoffeeStoreManagementApp.Migrations
 
                     b.Navigation("Coffee");
 
-                    b.Navigation("NonDairyAlternative");
+                    b.Navigation("NonDiaryAlternative");
                 });
 
             modelBuilder.Entity("CoffeeStoreManagementApp.Models.CoffeeSauce", b =>
@@ -1094,17 +1044,6 @@ namespace CoffeeStoreManagementApp.Migrations
                     b.Navigation("Coffee");
 
                     b.Navigation("Topping");
-                });
-
-            modelBuilder.Entity("CoffeeStoreManagementApp.Models.EmployeeCredential", b =>
-                {
-                    b.HasOne("CoffeeStoreManagementApp.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
                 });
 
             modelBuilder.Entity("CoffeeStoreManagementApp.Models.Order", b =>
@@ -1179,7 +1118,7 @@ namespace CoffeeStoreManagementApp.Migrations
                     b.Navigation("AllowedCoffees");
                 });
 
-            modelBuilder.Entity("CoffeeStoreManagementApp.Models.NonDairyAlternative", b =>
+            modelBuilder.Entity("CoffeeStoreManagementApp.Models.NonDiaryAlternative", b =>
                 {
                     b.Navigation("AllowedCoffees");
                 });

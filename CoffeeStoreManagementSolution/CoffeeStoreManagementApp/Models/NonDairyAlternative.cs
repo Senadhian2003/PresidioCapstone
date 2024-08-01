@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace CoffeeStoreManagementApp.Models
 {
-    public class NonDiaryAlternative
+    public class NonDairyAlternative
     {
         [Key]
         public int Id { get; set; }
@@ -12,6 +12,6 @@ namespace CoffeeStoreManagementApp.Models
         public double Price { get; set; }
 
         [JsonIgnore]
-        public List<CoffeeNonDairyAlternative> AllowedCoffees { get; set; }
+        public ICollection<CoffeeNonDairyAlternative> AllowedCoffees { get; set; }
     }
 }

@@ -6,7 +6,7 @@
 
 //namespace CoffeeStoreManagementApp.Repositories
 //{
-//    public class CoffeeSauceRepsoitory : IRepository<int,CoffeeSauce>
+//    public class CoffeeSauceRepsoitory : IIntermediateModelRepository<int,int,CoffeeSauce>
 //    {
 
 //        private readonly CoffeeManagementContext _context;
@@ -35,7 +35,7 @@
 
 //        public async Task<CoffeeSauce> GetByKey(int key1, int key2)
 //        {
-//            var coffeeSauce = await _context.CoffeeSauces.FirstOrDefaultAsync(u => u.CoffeeId == key1 && u.SauceId==key2);
+//            var coffeeSauce = await _context.CoffeeSauces.FirstOrDefaultAsync(u => u.CoffeeId == key1 && u.SauceId == key2);
 
 //            if (coffeeSauce != null)
 //            {

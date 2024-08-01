@@ -4,6 +4,7 @@ using CoffeeStoreManagementApp.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CoffeeStoreManagementApp.Migrations
 {
     [DbContext(typeof(CoffeeManagementContext))]
-    partial class CoffeeManagementContextModelSnapshot : ModelSnapshot
+    [Migration("20240801042852_twelve")]
+    partial class twelve
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -369,7 +371,7 @@ namespace CoffeeStoreManagementApp.Migrations
 
                     b.HasIndex("NonDairyAlternativeId");
 
-                    b.ToTable("CoffeeNonDairyAlternative");
+                    b.ToTable("CoffeeNonDairyAlternatives");
 
                     b.HasData(
                         new
@@ -628,9 +630,12 @@ namespace CoffeeStoreManagementApp.Migrations
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Email");
 
-                    b.HasIndex("EmployeeId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("EmployeeCredentials");
                 });
@@ -681,7 +686,7 @@ namespace CoffeeStoreManagementApp.Migrations
                         });
                 });
 
-            modelBuilder.Entity("CoffeeStoreManagementApp.Models.NonDairyAlternative", b =>
+            modelBuilder.Entity("CoffeeStoreManagementApp.Models.NonDiaryAlternative", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -698,7 +703,7 @@ namespace CoffeeStoreManagementApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NonDairyAlternative");
+                    b.ToTable("NonDiaryAlternatives");
 
                     b.HasData(
                         new
@@ -1047,7 +1052,7 @@ namespace CoffeeStoreManagementApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CoffeeStoreManagementApp.Models.NonDairyAlternative", "NonDairyAlternative")
+                    b.HasOne("CoffeeStoreManagementApp.Models.NonDiaryAlternative", "NonDiaryAlternative")
                         .WithMany("AllowedCoffees")
                         .HasForeignKey("NonDairyAlternativeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1055,7 +1060,7 @@ namespace CoffeeStoreManagementApp.Migrations
 
                     b.Navigation("Coffee");
 
-                    b.Navigation("NonDairyAlternative");
+                    b.Navigation("NonDiaryAlternative");
                 });
 
             modelBuilder.Entity("CoffeeStoreManagementApp.Models.CoffeeSauce", b =>
@@ -1098,13 +1103,13 @@ namespace CoffeeStoreManagementApp.Migrations
 
             modelBuilder.Entity("CoffeeStoreManagementApp.Models.EmployeeCredential", b =>
                 {
-                    b.HasOne("CoffeeStoreManagementApp.Models.Employee", "Employee")
+                    b.HasOne("CoffeeStoreManagementApp.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("EmployeeId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Employee");
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CoffeeStoreManagementApp.Models.Order", b =>
@@ -1179,7 +1184,7 @@ namespace CoffeeStoreManagementApp.Migrations
                     b.Navigation("AllowedCoffees");
                 });
 
-            modelBuilder.Entity("CoffeeStoreManagementApp.Models.NonDairyAlternative", b =>
+            modelBuilder.Entity("CoffeeStoreManagementApp.Models.NonDiaryAlternative", b =>
                 {
                     b.Navigation("AllowedCoffees");
                 });

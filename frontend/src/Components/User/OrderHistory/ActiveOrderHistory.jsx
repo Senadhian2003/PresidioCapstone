@@ -91,7 +91,7 @@ function ActiveOrderHistory() {
                   <thead>
                     <tr>
                       <td scope="col">Order ID</td>
-                      <td scope="col">Total no of Items</td>
+                      <td scope="col" className="text-center">Total no of Items</td>
                       <td scope="col" className="text-center">
                         Items Received
                       </td>
@@ -110,9 +110,9 @@ function ActiveOrderHistory() {
                           aria-expanded="false"
                         >
                           <td>{order.orderId}</td>
-                          <td>{order.totalItems}</td>
-                          <td>{order.itemsServed}</td>
-                          <td>{order.orderStatus}</td>
+                          <td className="text-center">{order.totalItems}</td>
+                          <td className="text-center">{order.itemsServed}</td>
+                          <td className="text-center">{order.orderStatus}</td>
                         </tr>
                         <tr>
                           <td colSpan="4" className="p-0">
@@ -129,7 +129,7 @@ function ActiveOrderHistory() {
                                   <tr>
                                     <td scope="col">Coffee Name</td>
                                     <td scope="col">Add Ons</td>
-                                    <td className="text-center" scope="col">
+                                    <td className="text-start" scope="col">
                                       Status
                                     </td>
                                   </tr>
@@ -146,8 +146,8 @@ function ActiveOrderHistory() {
                                           index==0 && (
 
                                             <>
-                                            <td rowSpan={detail.orderDetailStatuses.length} >{detail.coffeeName}</td>
-                                            <td rowSpan={detail.orderDetailStatuses.length} >{detail.addOns}</td>
+                                            <td rowSpan={detail.orderDetailStatuses.length} className="vertical-align-middle" >{detail.coffeeName}</td>
+                                            <td rowSpan={detail.orderDetailStatuses.length} className="vertical-align-middle" >{detail.addOns}</td>
                                             </>
 
                                           )
@@ -156,7 +156,7 @@ function ActiveOrderHistory() {
                                         {/* <td>{detail.coffeeName}</td>
                                         <td>{detail.addOns}</td> */}
                                         <td className="text-center">
-                                          {status.status}
+                                         <p className={status.status} > {status.status}</p>
                                         </td>
                                       </tr>
                                     ))

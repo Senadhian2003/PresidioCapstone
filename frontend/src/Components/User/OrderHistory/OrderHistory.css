@@ -195,3 +195,11 @@
     background-color: #006241 !important;
     color: white !important;
   }
+
+  .cursor{
+    cursor: pointer;
+  }
+
+  .vertical-align-middle {
+    vertical-align: middle !important;
+  }

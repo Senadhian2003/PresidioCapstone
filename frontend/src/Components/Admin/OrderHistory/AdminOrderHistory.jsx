@@ -9,8 +9,9 @@ function AdminOrderHistory() {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [fromDate, setFromDate] = useState('');
-  const [toDate, setToDate] = useState('');
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     fetchOrders();
@@ -18,11 +19,11 @@ function AdminOrderHistory() {
 
   useEffect(() => {
     handleFilter();
-  }, [fromDate, toDate]);
+  }, [fromDate, toDate,searchInput]);
 
   const fetchOrders = () => {
     axios
-      .get(`http://localhost:5007/api/Order/GetMyOrders?userId=${userId}`)
+      .get(`http://localhost:5007/api/Order/GetAllOrders`)
       .then((response) => {
         console.log(response.data);
         setData(response.data);
@@ -45,9 +46,9 @@ function AdminOrderHistory() {
       to.setDate(to.getDate() + 1); // Include the 'to' date in the filter
     }
 
-    const filtered = data.filter(order => {
+    const filtered = data.filter((order) => {
       const orderDate = new Date(order.timeOfOrder);
-      return (!from || orderDate >= from) && (!to || orderDate < to);
+      return (!from || orderDate >= from) && (!to || orderDate < to) && (!searchInput || order.user.name.toLowerCase().includes(searchInput.toLowerCase()) || order.orderId.toString().toLowerCase().includes(searchInput.toLowerCase()) );
     });
 
     setFilteredData(filtered);
@@ -69,7 +70,9 @@ function AdminOrderHistory() {
       pages.push(
         <span
           key={i}
-          className={`pagination-number ${i === currentPage ? "pagination-active" : ""}`}
+          className={`pagination-number ${
+            i === currentPage ? "pagination-active" : ""
+          }`}
           onClick={() => handlePageChange(i)}
         >
           {i}
@@ -102,13 +105,13 @@ function AdminOrderHistory() {
                     href="/AdminOrderHistory"
                     className="p-2 nav-link active"
                   >
-                   Order History
+                    Order History
                   </a>
                 </div>
                 <div className="nav-items d-flex align-items-center">
                   <div className="date-pickers me-3">
-                    <label htmlFor="fromDate" style={{ display: 'inline' }}>
-                      {' '}
+                    <label htmlFor="fromDate" style={{ display: "inline" }}>
+                      {" "}
                       From
                     </label>
                     <input
@@ -121,8 +124,8 @@ function AdminOrderHistory() {
                     />
                   </div>
                   <div className="date-pickers me-3">
-                    <label htmlFor="toDate" style={{ display: 'inline' }}>
-                      {' '}
+                    <label htmlFor="toDate" style={{ display: "inline" }}>
+                      {" "}
                       To
                     </label>
                     <input
@@ -134,6 +137,17 @@ function AdminOrderHistory() {
                       onChange={(e) => setToDate(e.target.value)}
                     />
                   </div>
+                  <input
+                    type="text"
+                    style={{ marginTop: "22px" }}
+                    id="searchInput"
+                    class="form-control input-text"
+                    placeholder="Search..."
+                    aria-label="Search"
+                    value={searchInput}
+                    onChange={(e)=> setSearchInput(e.target.value)}
+                    aria-describedby="basic-addon1"
+                  />
                 </div>
               </div>
 
@@ -165,9 +179,9 @@ function AdminOrderHistory() {
                           aria-expanded="false"
                         >
                           <td>{order.orderId}</td>
-                          <td>{order.timeOfOrder.slice(0,10)}</td>
-                          <td>{order.totalItems}</td>
-                          <td>{order.totalPrice}</td>
+                          <td>{order.timeOfOrder.slice(0, 10)}</td>
+                          <td className="text-center">{order.totalItems}</td>
+                          <td className="text-center">{order.totalPrice}</td>
                         </tr>
                         <tr>
                           <td colSpan="4" className="p-0">
@@ -184,12 +198,8 @@ function AdminOrderHistory() {
                                   <tr>
                                     <td scope="col">Coffee Name</td>
                                     <td scope="col">Add Ons</td>
-                                    <td scope="col">
-                                      Quantity
-                                    </td>
-                                    <td scope="col">
-                                      Price Per Item
-                                    </td>
+                                    <td scope="col">Quantity</td>
+                                    <td scope="col">Price Per Item</td>
                                     <td className="text-center" scope="col">
                                       Total Price
                                     </td>
@@ -199,24 +209,28 @@ function AdminOrderHistory() {
                                     <td className="text-center" scope="col">
                                       Final Price
                                     </td>
-                                    
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  {order.orderDetails.map((detail) =>
+                                  {order.orderDetails.map((detail) => (
                                     <tr key={detail.orderDetailId}>
-
                                       <td>{detail.coffeeName}</td>
                                       <td>{detail.addOns}</td>
                                       <td>{detail.quanitty}</td>
-                                      <td className="text-center">{detail.pricePerItem}</td>
-                                      <td className="text-center">{detail.price}</td>
-                                      <td className="text-center">{detail.discount}</td>
-                                      <td className="text-center">{detail.finalAmount}</td>
-
-
+                                      <td className="text-center">
+                                        {detail.pricePerItem}
+                                      </td>
+                                      <td className="text-center">
+                                        {detail.price}
+                                      </td>
+                                      <td className="text-center">
+                                        {detail.discount}
+                                      </td>
+                                      <td className="text-center">
+                                        {detail.finalAmount}
+                                      </td>
                                     </tr>
-                                  )}
+                                  ))}
                                 </tbody>
                               </table>
                             </div>
@@ -233,8 +247,11 @@ function AdminOrderHistory() {
                       >
                         <div style={{ marginLeft: "40px" }}>
                           {itemsPerPage * (currentPage - 1) + 1}-
-                          {Math.min(itemsPerPage * currentPage, filteredData.length)} of{" "}
-                          {filteredData.length}
+                          {Math.min(
+                            itemsPerPage * currentPage,
+                            filteredData.length
+                          )}{" "}
+                          of {filteredData.length}
                         </div>
                       </td>
                       <td colSpan="2" style={{ textAlign: "end" }}>
@@ -247,7 +264,8 @@ function AdminOrderHistory() {
                               currentPage === 1 ? "disabled" : ""
                             }`}
                             onClick={() =>
-                              currentPage > 1 && handlePageChange(currentPage - 1)
+                              currentPage > 1 &&
+                              handlePageChange(currentPage - 1)
                             }
                           >
                             {"<"}
@@ -260,7 +278,8 @@ function AdminOrderHistory() {
                               currentPage === totalPages ? "disabled" : ""
                             }`}
                             onClick={() =>
-                              currentPage < totalPages && handlePageChange(currentPage + 1)
+                              currentPage < totalPages &&
+                              handlePageChange(currentPage + 1)
                             }
                           >
                             {">"}

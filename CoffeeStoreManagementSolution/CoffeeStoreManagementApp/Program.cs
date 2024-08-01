@@ -76,6 +76,8 @@ namespace CoffeeStoreManagementApp
             #region Repository Dependency Injection
             builder.Services.AddScoped<IRepository<int, User>, UserRepository>();
             builder.Services.AddScoped<IRepository<int, UserCredential>, UserCredentialRepository>();
+            builder.Services.AddScoped<IRepository<int, Employee>, EmployeeRepository>();
+            builder.Services.AddScoped<IRepository<int, EmployeeCredential>, EmployeeCredentialRepository>();
             builder.Services.AddScoped<IRepository<int, Coffee>, CoffeeRepository>();
             builder.Services.AddScoped<IRepository<int, Sauce>, SauceRepository>();
             builder.Services.AddScoped<IRepository<int, Cart>, CartRepository>();
@@ -91,7 +93,7 @@ namespace CoffeeStoreManagementApp
             builder.Services.AddScoped<ICoffeeServices, CoffeeServices>();
             builder.Services.AddScoped<ICartServices, CartServices>();
             builder.Services.AddScoped<IOrderServices, OrderServices>();
-
+            builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
 
             #endregion
 

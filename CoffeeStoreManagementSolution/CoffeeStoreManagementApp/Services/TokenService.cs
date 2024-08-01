@@ -31,5 +31,18 @@ namespace CoffeeStoreManagementApp.Services
             return token;
         }
 
+        public string GenerateEmployeeToken(Employee employee)
+        {
+            string token = string.Empty;
+            var claims = new List<Claim>(){
+                new Claim("Id", employee.EmployeeId.ToString()),
+                new Claim(ClaimTypes.Role, employee.Role.ToString())
+            };
+            var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256);
+            var myToken = new JwtSecurityToken(null, null, claims, expires: DateTime.Now.AddDays(2), signingCredentials: credentials);
+            token = new JwtSecurityTokenHandler().WriteToken(myToken);
+            return token;
+        }
+
     }
 }

@@ -1,3 +1,12 @@
 Covert very long decimal to floor 2 digits
 Error codes are wrong
 Add waitingtime for product detail button and increment decrement in cart card
+How does react do this in the filtering page
+
+
+Discount popup
+update order detial dropdown
+images different
+
+
+compiler interpreter working

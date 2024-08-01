@@ -1,4 +1,5 @@
 ﻿using CoffeeStoreManagementApp.Models;
+using CoffeeStoreManagementApp.Models.DTO;
 
 namespace CoffeeStoreManagementApp.Services.Interfaces
 {
@@ -8,6 +9,10 @@ namespace CoffeeStoreManagementApp.Services.Interfaces
         public Task<List<Coffee>> GetAllCofffee();
         
         public Task<Coffee> GetCoffeeById(int id);
+
+        public Task<Coffee> UpdateCoffeDetails(UpdateCoffeeDTO updateCoffeeDTO);
+
+        //public Task<GetDetailsForAddingNewCoffee> GetDetailsForAddingNewCoffee();
 
     }
 }

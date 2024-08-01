@@ -12,7 +12,7 @@ namespace CoffeeStoreManagementApp.Models
         [JsonIgnore]
         public Coffee Coffee { get; set; }
 
-        public NonDiaryAlternative NonDiaryAlternative { get; set; }
+        public NonDairyAlternative NonDairyAlternative { get; set; }
 
     }
 }
