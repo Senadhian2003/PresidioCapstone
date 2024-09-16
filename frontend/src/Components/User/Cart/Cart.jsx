@@ -5,13 +5,18 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from "../Navbar/Navbar";
 import CartCard from "./CartCard";
 import "./Cart.css";
+import axiosInstance from "../../Axios/AxiosInstance";
+import { toast } from "react-toastify";
+import LoadingComponentUser from "../../LoadingAnimation/LoadingComponentUser";
+import EmptyCartComponent from "./EmptyCartComponent";
 
 function Cart() {
-
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [data, setData] = useState([])
   const [total, setTotal] = useState(0)
   const [discount, setDiscount] = useState(0)
-  const [userId, setUserId] = useState(4);
+  const [userId, setUserId] = useState(19);
   const navigate = useNavigate();
 
 
@@ -23,8 +28,9 @@ function Cart() {
   },[])
 
   let getCartItems = ()=>{
-    axios.get('http://localhost:5007/api/Cart/GetCartItems?userId=4')
+    axiosInstance.get(`http://localhost:5007/api/Cart/GetCartItems`)
     .then((response)=>{
+      setIsLoading(false)
       console.log(response.data)
       setData(response.data)
       let newTotal = 0;
@@ -36,9 +42,21 @@ function Cart() {
       setTotal(newTotal);
       setDiscount(newDiscount);
     })
-    .catch((error)=>{
+    .catch(function (error) {
+      setIsLoading(false)
+      setIsError(true)
       console.log(error);
-    })
+     
+
+      
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.warn(error.response.data.message)
+      } 
+      else{
+        toast.error("Server error please try again later")
+      }
+
+    });
 
   }
 
@@ -47,19 +65,43 @@ function Cart() {
 
     // console.log("CLICKED")
 
-    axios.post(`http://localhost:5007/api/Cart/CheckoutCart?userId=${userId}`)
+    axiosInstance.post(`http://localhost:5007/api/Cart/CheckoutCart`)
     .then((response)=>{
       console.log(response.data)
       alert("Order placed successfully")
       navigate('/activeOrderHistory')
     })
-    .catch((error)=>{
-      console.log("Error : "+ error);
-    })
+    .catch(function (error) {
+      // console.log(error);
+
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.warn(error.response.data.message)
+      } 
+      else{
+        toast.error("Server error please try again later")
+      }
+
+    });
 
 
   }
 
+  if(isLoading)
+    return (
+      <>
+      <Navbar/>
+      <LoadingComponentUser/>
+      </>
+    )
+  else if(isError)
+  return(
+    <div >
+      <Navbar/>
+     <EmptyCartComponent/>
+    </div>
+  )
+
+  if(data)
   return (
     <div className="cart">
       <Navbar></Navbar>

@@ -9,7 +9,7 @@ function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("")
-
+  const [isBtnLoading, setIsBtnLoading] = useState(false);
   const [validationMessages, setValidationMessages] = useState({
     userEmail : "",
     password : ""
@@ -60,20 +60,29 @@ function Login() {
     flag = flag & validatePassword()
 
     if(flag){
-
+      setIsBtnLoading(true);
       axios.post('http://localhost:5007/api/Authentication/Login',{
         "email": email,
         "password": password
       })
       .then((response)=>{
         console.log(response.data)
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('role', response.data.role);
         toast.success("Login success")
         navigate('/')
       })
       .catch((error)=>{
         console.log("Error : " + error)
-       
-      })
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.warn(error.response.data.message)
+        } 
+        else{
+          toast.error("Server error please try again later")
+        }
+      }).finally(() => {
+        setIsBtnLoading(false); // Set loading state to false
+      });
 
 
     }
@@ -105,7 +114,22 @@ function Login() {
             <small id="passwordHelp" className={validationMessages.userEmail == "Accepted" ? "text-success" : "text-danger"} > {validationMessages.userEmail} </small>
             <input type="password" className='login-input' onChange={(e)=>setPassword(e.target.value)} placeholder="Password" onBlur={validatePassword} id="user-password" required/>
             <small id="passwordHelp" className={validationMessages.password == "Accepted" ? "text-success" : "text-danger"} > {validationMessages.password} </small>
-            <button type="button" class="login-btn" onClick={loginUser} id="login-btn">Login</button>
+            <button
+  type="button"
+  className="login-btn"
+  onClick={loginUser}
+  id="login-btn"
+  disabled={isBtnLoading}
+>
+  {isBtnLoading ? (
+    <>
+      <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      <span className="visually-hidden">Loading...</span>
+    </>
+  ) : (
+    "Login"
+  )}
+</button>
         </form>
         <button onclick="location.href='register.html'" class="register-btn">Register</button>
     </div>

@@ -1,0 +1,1 @@
+Data source=4N8CBX3\\SQLEXPRESS;Integrated Security=true;Initial catalog=CoffeeManagement

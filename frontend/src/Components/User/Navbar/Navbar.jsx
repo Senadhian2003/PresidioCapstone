@@ -1,7 +1,18 @@
 import React from 'react'
 import './Navbar.css'
 import Logo from '../../../Images/User/logo.png'
+import { toast } from 'react-toastify';
 function Navbar() {
+
+  function logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userRole');
+    toast.success("Logged out successfully");
+    setTimeout(() => {
+        window.location.reload();
+    }, 1500); // Redirect after 1.5 seconds
+  }
+
   return (
     <div>
       
@@ -42,8 +53,8 @@ function Navbar() {
                 <li class="nav-item">
                   <a class="nav-link" href="/OrderHistory">Order History</a>
                 </li>
-                <li class="nav-item" id="authentication">
-                 
+                <li class="nav-item" id="authentication" onClick={logout}>
+                {localStorage.getItem('token') ? <a style={{cursor : "pointer"}} class="nav-link" >Logout</a> : <a href='/login' class="nav-link" >Login</a>  }
                 </li>
               </ul>
             </div>

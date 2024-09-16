@@ -12,7 +12,8 @@ namespace CoffeeStoreManagementApp.Services.Interfaces
 
         public Task<Coffee> UpdateCoffeDetails(UpdateCoffeeDTO updateCoffeeDTO);
 
-        //public Task<GetDetailsForAddingNewCoffee> GetDetailsForAddingNewCoffee();
+        public Task<GetDetailsForAddingNewCoffeeDTO> GetDetailsForAddingNewCoffee();
 
+        public Task<Coffee> addNewCoffee(AddNewCoffeeDTO addNewCoffeeDTO);
     }
 }

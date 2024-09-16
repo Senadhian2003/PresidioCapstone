@@ -10,3 +10,7 @@ images different
 
 
 compiler interpreter working
+
+user need to have a cart after register
+
+Button loading animation once clicked and then should not be able to click

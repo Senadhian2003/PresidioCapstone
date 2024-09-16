@@ -21,7 +21,7 @@ namespace CoffeeStoreManagementApp.Controllers
             _orderServices = orderServices;
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("GetAllOrders")]
         [ProducesResponseType(typeof(List<Order>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -36,7 +36,7 @@ namespace CoffeeStoreManagementApp.Controllers
             catch (EmptyListException ele)
             {
 
-                return Unauthorized(new ErrorModel(401, ele.Message));
+                return NotFound(new ErrorModel(404, ele.Message));
             }
             catch (Exception ex)
             {
@@ -46,7 +46,7 @@ namespace CoffeeStoreManagementApp.Controllers
 
         }
 
-        //[Authorize(Roles = "Admin,Manager,Barista")]
+        [Authorize(Roles = "Admin,Manager,Barista")]
         [HttpGet("GetAllActiveOrders")]
         [ProducesResponseType(typeof(List<Order>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -61,7 +61,7 @@ namespace CoffeeStoreManagementApp.Controllers
             catch (EmptyListException ele)
             {
 
-                return Unauthorized(new ErrorModel(401, ele.Message));
+                return NotFound(new ErrorModel(404, ele.Message));
             }
             catch (Exception ex)
             {
@@ -71,22 +71,24 @@ namespace CoffeeStoreManagementApp.Controllers
 
         }
 
-
+        [Authorize(Roles = "User")]
         [HttpGet("GetMyOrders")]
         [ProducesResponseType(typeof(List<Order>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<User>> GetMyOrders(int userId)
+        public async Task<ActionResult<User>> GetMyOrders()
         {
             try
             {
+                var userstring = User.Claims?.FirstOrDefault(x => x.Type == "Id")?.Value;
+                var userId = Convert.ToInt32(userstring);
                 var result = await _orderServices.ViewAllMyOrders(userId);
                 return Ok(result);
             }
             catch (EmptyListException ele)
             {
 
-                return Unauthorized(new ErrorModel(401, ele.Message));
+                return NotFound(new ErrorModel(404, ele.Message));
             }
             catch (Exception ex)
             {
@@ -96,21 +98,24 @@ namespace CoffeeStoreManagementApp.Controllers
 
         }
 
+        [Authorize(Roles = "User")]
         [HttpGet("GetMyActiveOrders")]
         [ProducesResponseType(typeof(List<Order>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<User>> GetMyActiveOrders(int userId)
+        public async Task<ActionResult<User>> GetMyActiveOrders()
         {
             try
             {
+                var userstring = User.Claims?.FirstOrDefault(x => x.Type == "Id")?.Value;
+                var userId = Convert.ToInt32(userstring);
                 var result = await _orderServices.ViewMyActiveOrders(userId);
                 return Ok(result);
             }
             catch (EmptyListException ele)
             {
 
-                return Unauthorized(new ErrorModel(401, ele.Message));
+                return NotFound(new ErrorModel(404, ele.Message));
             }
             catch (Exception ex)
             {
@@ -120,6 +125,7 @@ namespace CoffeeStoreManagementApp.Controllers
 
         }
 
+        [Authorize(Roles = "Admin,Manager,Barista")]
         [HttpPut("UpdateOrderDetails")]
         [ProducesResponseType(typeof(CartItem), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -131,10 +137,10 @@ namespace CoffeeStoreManagementApp.Controllers
                 var result = await _orderServices.UpdateOrderDetail(updateOrderDetailDTO);
                 return Ok(result);
             }
-            catch (EmptyListException ele)
+            catch (ElementNotFoundException ele)
             {
 
-                return Unauthorized(new ErrorModel(401, ele.Message));
+                return NotFound(new ErrorModel(404, ele.Message));
             }
             catch (Exception ex)
             {

@@ -22,7 +22,7 @@ namespace CoffeeStoreManagementApp.Controllers
             _cartServices = cartServices;
         }
 
-        //[Authorize(Roles = "User")]
+        [Authorize(Roles = "User")]
         [HttpPost("AddCoffeeToCart")]
         [ProducesResponseType(typeof(CartItem), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -31,13 +31,15 @@ namespace CoffeeStoreManagementApp.Controllers
         {
             try
             {
-                var result = await _cartServices.AddItemToCart(addItemToCartDTO);
+                var userstring = User.Claims?.FirstOrDefault(x => x.Type == "Id")?.Value;
+                var userId = Convert.ToInt32(userstring);
+                var result = await _cartServices.AddItemToCart(userId, addItemToCartDTO);
                 return Ok(result);
             }
-            catch (EmptyListException ele)
+            catch (ElementNotFoundException uue)
             {
 
-                return Unauthorized(new ErrorModel(401, ele.Message));
+                return NotFound(new ErrorModel(404, uue.Message));
             }
             catch (Exception ex)
             {
@@ -47,22 +49,22 @@ namespace CoffeeStoreManagementApp.Controllers
 
         }
 
-
+        [Authorize(Roles = "User")]
         [HttpPut("UpdateCartItemQuantity")]
         [ProducesResponseType(typeof(CartItem), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<User>> AddCofUpdateCartItemQuantityfeeToCart(UpdateCartItemDTO updateCartItemDTO)
+        public async Task<ActionResult<User>> UpdateCartItemQuantityToCart(UpdateCartItemDTO updateCartItemDTO)
         {
             try
             {
                 var result = await _cartServices.UpdateCartItemQuantity(updateCartItemDTO);
                 return Ok(result);
             }
-            catch (EmptyListException ele)
+            catch (ElementNotFoundException enf)
             {
 
-                return Unauthorized(new ErrorModel(401, ele.Message));
+                return NotFound(new ErrorModel(404, enf.Message));
             }
             catch (Exception ex)
             {
@@ -72,23 +74,25 @@ namespace CoffeeStoreManagementApp.Controllers
 
         }
 
-
+        [Authorize(Roles = "User")]
         [HttpGet("GetCartItems")]
         [ProducesResponseType(typeof(List<CartItem>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<User>> GetAllCoffees(int userId)
+        public async Task<ActionResult<User>> GetAllCartItems()
         {
             try
             {
+                var userstring = User.Claims?.FirstOrDefault(x => x.Type == "Id")?.Value;
+                var userId = Convert.ToInt32(userstring);
                 var result = await _cartServices.GetCartItems(userId);
                 return Ok(result);
             }
             catch (EmptyListException ele)
             {
 
-                return Unauthorized(new ErrorModel(401, ele.Message));
-            }
+                return NotFound(new ErrorModel(404, ele.Message));
+            } 
             catch (Exception ex)
             {
 
@@ -97,7 +101,7 @@ namespace CoffeeStoreManagementApp.Controllers
 
         }
 
-
+        [Authorize(Roles = "User")]
         [HttpDelete("DeleteCartItem")]
         [ProducesResponseType(typeof(CartItem), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -109,10 +113,10 @@ namespace CoffeeStoreManagementApp.Controllers
                 var result = await _cartServices.DeleteCartItem(cartItemId);
                 return Ok(result);
             }
-            catch (EmptyListException ele)
+            catch (ElementNotFoundException enfe)
             {
 
-                return Unauthorized(new ErrorModel(401, ele.Message));
+                return NotFound(new ErrorModel(404, enfe.Message));
             }
             catch (Exception ex)
             {
@@ -122,22 +126,24 @@ namespace CoffeeStoreManagementApp.Controllers
 
         }
 
-
+        [Authorize(Roles = "User")]
         [HttpPost("CheckoutCart")]
         [ProducesResponseType(typeof(Order), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<User>> CheckoutCart(int userId)
+        public async Task<ActionResult<User>> CheckoutCart()
         {
             try
             {
+                var userstring = User.Claims?.FirstOrDefault(x => x.Type == "Id")?.Value;
+                var userId = Convert.ToInt32(userstring);
                 var result = await _cartServices.CheckoutCart(userId);
                 return Ok(result);
             }
             catch (EmptyListException ele)
             {
 
-                return Unauthorized(new ErrorModel(401, ele.Message));
+                return Unauthorized(new ErrorModel(404, ele.Message));
             }
             catch (Exception ex)
             {

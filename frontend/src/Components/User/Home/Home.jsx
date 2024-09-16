@@ -10,6 +10,10 @@ import CoffeeImg from '../../../Images/User/CoffeeImg.png'
 import SocMeds from '../../../Images/User/socmeds.png'
 
 function Home() {
+
+//   const token = localStorage.getItem('token')
+//   const role = localStorage.getItem('role')
+// console.log(token,role)
   return (
     <div className='home' >
       <Navbar></Navbar>

@@ -2,7 +2,7 @@
 {
     public class AddItemToCartDTO
     {
-        public int UserId { get; set; }
+       
 
         public int CoffeeId { get; set; } 
 

@@ -2,8 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../Navbar/Navbar";
 import "./OrderHistory.css";
+import axiosInstance from "../../Axios/AxiosInstance";
+import EmptyOrders from "./EmptyOrderHistory";
+import LoadingComponentUser from "../../LoadingAnimation/LoadingComponentUser"
+import { toast } from "react-toastify";
 
 function OrderHistory() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [userId, setUserId] = useState(4);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -21,15 +27,24 @@ function OrderHistory() {
   }, [fromDate, toDate]);
 
   const fetchOrders = () => {
-    axios
-      .get(`http://localhost:5007/api/Order/GetMyOrders?userId=${userId}`)
+    axiosInstance
+      .get(`http://localhost:5007/api/Order/GetMyOrders`)
       .then((response) => {
+        setIsLoading(false)
         console.log(response.data);
         setData(response.data);
         setFilteredData(response.data); // Initialize filteredData with all data
       })
       .catch((error) => {
+        setIsLoading(false)
+        setIsError(true)
         console.log("Error: " + error);
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.warn(error.response.data.message)
+        } 
+        else{
+          toast.error("Server error please try again later")
+        }
       });
   };
 
@@ -80,6 +95,22 @@ function OrderHistory() {
     return pages;
   };
 
+  if(isLoading)
+    return (
+      <>
+      <Navbar/>
+      <LoadingComponentUser/>
+      </>
+    )
+  else if(isError)
+  return(
+    <div >
+       <Navbar />
+     <EmptyOrders/>
+    </div>
+  )
+  
+  if(data)
   return (
     <div>
       <Navbar />

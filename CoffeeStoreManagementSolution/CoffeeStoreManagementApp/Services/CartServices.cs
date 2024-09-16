@@ -24,17 +24,18 @@ namespace CoffeeStoreManagementApp.Services
             _coffeeRepository = coffeeRepository;
         }
 
-        public async Task<CartItem> AddItemToCart(AddItemToCartDTO addItemToCartDTO)
+        public async Task<CartItem> AddItemToCart(int UserId, AddItemToCartDTO addItemToCartDTO)
         {
+
 
             var carts = await _cartRepository.GetAll();
 
-            Cart userCart = carts.FirstOrDefault(c => c.UserId == addItemToCartDTO.UserId);
+            Cart userCart = carts.FirstOrDefault(c => c.UserId == UserId);
 
 
             if(userCart == null)
             {
-                throw new UnauthorizedUserException("User data not found, login required");
+                throw new ElementNotFoundException("Cart");
             }
 
             var existingItem = userCart.CartItems.FirstOrDefault(ci => ci.CoffeeId == addItemToCartDTO.CoffeeId && ci.AddOns == addItemToCartDTO.AddOn);
@@ -123,7 +124,8 @@ namespace CoffeeStoreManagementApp.Services
             }
             else
             {
-                CartItem.Discount = CartItem.CartItemPrice * 0.1;
+                CartItem.Discount = Math.Round(CartItem.CartItemPrice * 0.1, 2);
+
             }
 
             await _cartItemRepository.Update(CartItem);
@@ -153,7 +155,7 @@ namespace CoffeeStoreManagementApp.Services
 
             if (userCart == null)
             {
-                throw new UnauthorizedUserException("User data not found, login required");
+                throw new EmptyListException("Cart");
             }
 
             var cartItems = userCart.CartItems;

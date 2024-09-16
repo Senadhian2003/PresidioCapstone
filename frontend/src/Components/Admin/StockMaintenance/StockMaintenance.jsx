@@ -3,10 +3,14 @@ import Navbar from "../AdminNavbar/AdminNavbar";
 import axios from 'axios';
 import Card from "./Card";
 import {useState,useEffect} from 'react';
+import axiosInstance from "../../Axios/AxiosInstanceAdmin";
+import LoadingComponentUser from '../../LoadingAnimation/LoadingComponentUser';
+import { toast } from 'react-toastify';
 function StockMaintenance() {
-    const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("");
   const [coffees, setCoffees] = useState(null);
-
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   useEffect(()=>{
 
    fetchCoffeeData()
@@ -17,15 +21,31 @@ function StockMaintenance() {
     axios.get('http://localhost:5007/api/Coffee/GetAllCoffees')
     .then( (response)=> {
       // handle success
+      setIsLoading(false)
       console.log(response.data);
       setCoffees(response.data)
     })
     .catch(function (error) {
       // handle error
       console.log(error);
+
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.warn(error.response.data.message)
+    } 
+    else{
+      toast.error("Server error please try again later")
+    }
+
     })
   }
 
+  if(isLoading)
+    return (
+      <>
+      <Navbar/>
+      <LoadingComponentUser/>
+      </>
+    )
   if(coffees!=null)
   return (
     <div>
@@ -39,8 +59,8 @@ function StockMaintenance() {
           >
             Espresso
           </p>
-
-          <div class="mb-3 " style={{ marginRight: "10px" }}>
+          <div className='d-flex'>
+            <div class="mb-3 " style={{ marginRight: "10px" }}>
             <input
               id="searchInput"
               type="text"
@@ -51,6 +71,11 @@ function StockMaintenance() {
               aria-describedby="basic-addon1"
             />
           </div>
+          <a href="/addNewCoffee"> <button style={{marginTop:"25px"}}  class="btn blue">+ Add</button></a>
+         
+
+          </div>
+          
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 ﻿namespace CoffeeStoreManagementApp.Models.DTO
 {
-    public class GetDetailsForAddingNewCoffee
+    public class GetDetailsForAddingNewCoffeeDTO
     {
         public ICollection<Capacity> Capacities { get; set; }
         public ICollection<Milk> Milks { get; set; }

@@ -1,20 +1,18 @@
 ﻿using CoffeeStoreManagementApp.Context;
-using CoffeeStoreManagementApp.Exceptions;
 using CoffeeStoreManagementApp.Models;
 using CoffeeStoreManagementApp.Repositories.Interface;
-using Microsoft.EntityFrameworkCore;
 
 namespace CoffeeStoreManagementApp.Repositories
 {
-    public class CoffeeSauceRepsoitory : IIntermediateModelRepository<int, int, CoffeeSauce>
+    public class CoffeeCapacityRepository : IIntermediateModelRepository<int, int, CoffeeCapacity>
     {
 
         private readonly CoffeeManagementContext _context;
-        public CoffeeSauceRepsoitory(CoffeeManagementContext context)
+        public CoffeeCapacityRepository(CoffeeManagementContext context)
         {
             _context = context;
         }
-        public async Task<CoffeeSauce> Add(CoffeeSauce item)
+        public async Task<CoffeeCapacity> Add(CoffeeCapacity item)
         {
             _context.Add(item);
             await _context.SaveChangesAsync();

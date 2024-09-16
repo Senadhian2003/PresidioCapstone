@@ -23,7 +23,9 @@
         public ICollection<CoffeeTopping> AllowedToppings { get; set; }
 
 
-        public double Price { get; set; }   
+        public double Price { get; set; }
+
+        public string? ImageURL { get; set; }
 
     }
 }

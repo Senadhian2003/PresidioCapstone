@@ -67,12 +67,19 @@ function EmployeeLogin() {
       })
       .then((response)=>{
         console.log(response.data)
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('role', response.data.role);
         toast.success("Login success")
         navigate('/AdminActiveOrder')
       })
       .catch((error)=>{
         console.log("Error : " + error)
-       
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.warn(error.response.data.message)
+        } 
+        else{
+          toast.error("Server error please try again later")
+        }
       })
 
 

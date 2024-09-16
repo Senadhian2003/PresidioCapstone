@@ -79,7 +79,16 @@ namespace CoffeeStoreManagementApp
             builder.Services.AddScoped<IRepository<int, Employee>, EmployeeRepository>();
             builder.Services.AddScoped<IRepository<int, EmployeeCredential>, EmployeeCredentialRepository>();
             builder.Services.AddScoped<IRepository<int, Coffee>, CoffeeRepository>();
+            builder.Services.AddScoped<IRepository<int, Capacity>, CapacityRepository>();
+            builder.Services.AddScoped<IRepository<int, Milk>, MilkRepository>();
+            builder.Services.AddScoped<IRepository<int, NonDairyAlternative>, NonDairyAlternativeRepository>();
             builder.Services.AddScoped<IRepository<int, Sauce>, SauceRepository>();
+            builder.Services.AddScoped<IRepository<int, Topping>, ToppingRepository>();
+            builder.Services.AddScoped<IIntermediateModelRepository<int,int, CoffeeCapacity>, CoffeeCapacityRepository>();
+            builder.Services.AddScoped<IIntermediateModelRepository<int, int, CoffeeMilk>, CoffeeMilkRepository>();
+            builder.Services.AddScoped<IIntermediateModelRepository<int, int, CoffeeNonDairyAlternative>, CoffeeNonDairyAlternativeRepository>();
+            builder.Services.AddScoped<IIntermediateModelRepository<int, int, CoffeeSauce>, CoffeeSauceRepsoitory>();
+            builder.Services.AddScoped<IIntermediateModelRepository<int, int, CoffeeTopping>, CoffeeToppingRepository>();
             builder.Services.AddScoped<IRepository<int, Cart>, CartRepository>();
             builder.Services.AddScoped<IRepository<int,CartItem>, CartItemRepository>();
             builder.Services.AddScoped<IRepository<int, Order>, OrderRepository>();
@@ -94,6 +103,7 @@ namespace CoffeeStoreManagementApp
             builder.Services.AddScoped<ICartServices, CartServices>();
             builder.Services.AddScoped<IOrderServices, OrderServices>();
             builder.Services.AddScoped<IAdminAuthService, AdminAuthService>();
+            builder.Services.AddScoped<IBlobService, BlobService>();    
 
             #endregion
 

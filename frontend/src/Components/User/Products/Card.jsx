@@ -11,7 +11,7 @@ function Card(props) {
                   <div className="col-4">
                     <div
                       className="coffee-card-image"
-                      style={{ backgroundImage: `url('${Cappuccino}')` }}
+                      style={{ backgroundImage: `url('${props.data.imageURL || Cappuccino}')` }}
                     ></div>
                   </div>
 

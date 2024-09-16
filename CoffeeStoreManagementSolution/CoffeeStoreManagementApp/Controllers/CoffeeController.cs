@@ -4,6 +4,8 @@ using CoffeeStoreManagementApp.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CoffeeStoreManagementApp.Services.Interfaces;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CoffeeStoreManagementApp.Controllers
 {
@@ -34,7 +36,7 @@ namespace CoffeeStoreManagementApp.Controllers
             catch (EmptyListException ele)
             {
 
-                return Unauthorized(new ErrorModel(401, ele.Message));
+                return NotFound(new ErrorModel(404, ele.Message));
             }
             catch (Exception ex)
             {
@@ -59,7 +61,7 @@ namespace CoffeeStoreManagementApp.Controllers
             catch (ElementNotFoundException enfe)
             {
 
-                return Unauthorized(new ErrorModel(401, enfe.Message));
+                return NotFound(new ErrorModel(404, enfe.Message));
             }
             catch (Exception ex)
             {
@@ -69,6 +71,7 @@ namespace CoffeeStoreManagementApp.Controllers
 
         }
 
+        [Authorize(Roles = "Admin,Manager")]
         [HttpPut("UpdateCoffeeDetails")]
         [ProducesResponseType(typeof(Coffee), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
@@ -83,7 +86,51 @@ namespace CoffeeStoreManagementApp.Controllers
             catch (EmptyListException ele)
             {
 
-                return Unauthorized(new ErrorModel(401, ele.Message));
+                return NotFound(new ErrorModel(404, ele.Message));
+            }
+            catch (Exception ex)
+            {
+
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(500, ex.Message)); ;
+            }
+
+        }
+
+        [Authorize(Roles = "Admin,Manager")]
+        [HttpPost("addNewCoffee")]
+        public async Task<ActionResult<Coffee>> addNewCoffee([FromForm] AddNewCoffeeDTO addNewCoffeeDTO)
+        {
+            try
+            {
+                System.Diagnostics.Debug.WriteLine(JsonConvert.SerializeObject("Result"));
+                // Log received DTO
+                System.Diagnostics.Debug.WriteLine(JsonConvert.SerializeObject(addNewCoffeeDTO));
+                
+                var result = await _coffeeServices.addNewCoffee(addNewCoffeeDTO);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ErrorModel(500, ex.Message));
+            }
+        }
+
+        [Authorize(Roles = "Admin,Manager")]
+        [HttpGet("GetAllAddOns")]
+        [ProducesResponseType(typeof(List<Coffee>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status404NotFound)]
+        [ProducesResponseType(typeof(ErrorModel), StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<User>> GetAllAddOns()
+        {
+            try
+            {
+                var result = await _coffeeServices.GetDetailsForAddingNewCoffee();
+                return Ok(result);
+            }
+            catch (EmptyListException ele)
+            {
+
+                return NotFound(new ErrorModel(404, ele.Message));
             }
             catch (Exception ex)
             {

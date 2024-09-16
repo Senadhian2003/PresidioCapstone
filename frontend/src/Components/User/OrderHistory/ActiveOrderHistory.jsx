@@ -2,9 +2,15 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../Navbar/Navbar";
 import "./OrderHistory.css";
+import { toast } from "react-toastify";
+import axiosInstance from "../../Axios/AxiosInstance";
+import emptyDataImg from '../../../Images/Admin/emptyData.png'
+import EmptyActiveOrders from "./EmptyActiveOrders";
+import LoadingComponentUser from "../../LoadingAnimation/LoadingComponentUser"
 
 function ActiveOrderHistory() {
-  const [userId, setUserId] = useState(4);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
@@ -14,14 +20,22 @@ function ActiveOrderHistory() {
   }, []);
 
   const fetchActiveOrders = () => {
-    axios
-      .get(`http://localhost:5007/api/Order/GetMyActiveOrders?userId=${userId}`)
+    axiosInstance
+      .get(`http://localhost:5007/api/Order/GetMyActiveOrders`)
       .then((response) => {
+        setIsLoading(false)
         console.log(response.data);
         setData(response.data);
       })
       .catch((error) => {
-        console.log("Error: " + error);
+        setIsLoading(false)
+        setIsError(true)
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.warn(error.response.data.message)
+        } 
+        else{
+          toast.error("Server error please try again later")
+        }
       });
   };
 
@@ -55,6 +69,20 @@ function ActiveOrderHistory() {
     return pages;
   };
 
+  if(isLoading)
+    return (
+      <>
+      <Navbar/>
+      <LoadingComponentUser/>
+      </>
+    )
+  else if(isError)
+  return(
+    <div >
+     <EmptyActiveOrders/>
+    </div>
+  )
+  if(data)
   return (
     <div>
       <Navbar />

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace CoffeeStoreManagementApp.Models
 {
@@ -9,6 +10,8 @@ namespace CoffeeStoreManagementApp.Models
         public int CartId { get; set; }
 
         public int UserId { get; set; }
+
+        [JsonIgnore]
         public User User { get; set; }
 
         public double Total { get; set; }

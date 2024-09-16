@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import Cappuccino from "../../../Images/User/Cappuccino.webp";
 import axios from "axios";
-
+import axiosInstance from "../../Axios/AxiosInstanceAdmin";
+import { toast } from "react-toastify";
 
 function Card(props) {
   const [coffeeName, setCoffeeName] = useState(props.data.name);
@@ -92,7 +93,7 @@ function Card(props) {
     
     if (flag) {
       
-      axios.put('http://localhost:5007/api/Coffee/UpdateCoffeeDetails',{
+      axiosInstance.put('http://localhost:5007/api/Coffee/UpdateCoffeeDetails',{
         "coffeeId": props.data.id,
   "name": coffeeName,
   "description": description,
@@ -102,10 +103,19 @@ function Card(props) {
       .then((response)=>{
         console.log(response.data)
         setShowModal(false);
+        toast.success("Coffee value updated successfully")
         props.fetchCoffeeData()
       })
       .catch((error)=>{
         console.log("Error : "+ error)
+
+        if (error.response && error.response.data && error.response.data.message) {
+          toast.warn(error.response.data.message)
+      } 
+      else{
+        toast.error("Server error please try again later")
+      }
+
       })
 
     
@@ -120,10 +130,10 @@ function Card(props) {
       <div className="coffee-card-item">
         <div className="row">
           <div className="col-4">
-            <div
-              className="coffee-card-image"
-              style={{ backgroundImage: `url('${Cappuccino}')` }}
-            ></div>
+          <div
+                      className="coffee-card-image"
+                      style={{ backgroundImage: `url('${props.data.imageURL || Cappuccino}')` }}
+                    ></div>
           </div>
 
           <div className="col-8 text-start" style={{ marginTop: "30px" }}>

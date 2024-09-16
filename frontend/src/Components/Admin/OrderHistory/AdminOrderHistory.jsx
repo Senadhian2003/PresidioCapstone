@@ -2,8 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Navbar from "../AdminNavbar/AdminNavbar";
 // import "./OrderHistory.css";
+import axiosInstance from "../../Axios/AxiosInstanceAdmin";
+import { toast } from "react-toastify";
+import LoadingComponentUser from "../../LoadingAnimation/LoadingComponentUser";
+import EmptyAdminOrderHistory from "./EmptyAdminOrderHistory";
 
 function AdminOrderHistory() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [userId, setUserId] = useState(4);
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
@@ -22,15 +28,25 @@ function AdminOrderHistory() {
   }, [fromDate, toDate,searchInput]);
 
   const fetchOrders = () => {
-    axios
+    axiosInstance
       .get(`http://localhost:5007/api/Order/GetAllOrders`)
       .then((response) => {
+        setIsLoading(false)
         console.log(response.data);
         setData(response.data);
         setFilteredData(response.data); // Initialize filteredData with all data
       })
       .catch((error) => {
+        setIsLoading(false)
+        setIsError(true)
         console.log("Error: " + error);
+
+        if (error.response && error.response.data && error.response.data.message) {
+            toast.warn(error.response.data.message)
+        } 
+        else{
+          toast.error("Server error please try again later")
+        }
       });
   };
 
@@ -83,6 +99,21 @@ function AdminOrderHistory() {
     return pages;
   };
 
+  if(isLoading)
+    return (
+      <>
+      <Navbar/>
+      <LoadingComponentUser/>
+      </>
+    )
+  else if(isError)
+  return(
+    <div >
+      <Navbar/>
+     <EmptyAdminOrderHistory/>
+    </div>
+  )
+  if(data)
   return (
     <div>
       <Navbar />

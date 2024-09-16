@@ -8,7 +8,7 @@ namespace CoffeeStoreManagementApp.Services.Interfaces
 
         public Task<List<CartItem>> GetCartItems(int userId);
 
-        public Task<CartItem> AddItemToCart(AddItemToCartDTO addItemToCartDTO);
+        public Task<CartItem> AddItemToCart(int userId, AddItemToCartDTO addItemToCartDTO);
 
         public Task<CartItem> UpdateCartItemQuantity(UpdateCartItemDTO updateCartItemDTO);
 

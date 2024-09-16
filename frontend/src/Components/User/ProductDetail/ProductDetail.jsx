@@ -4,6 +4,9 @@ import { useParams } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import "./ProductDetail.css";
 import Cappuccino from "../../../Images/User/M107777.webp";
+import axiosInstance from "../../Axios/AxiosInstance";
+import { toast } from "react-toastify";
+import LoadingComponentUser from "../../LoadingAnimation/LoadingComponentUser";
 
 function ProductDetail() {
   const [productDetail, setProductDetail] = useState(null);
@@ -24,7 +27,7 @@ function ProductDetail() {
   // let coffeePrice = 0
 
   useEffect(() => {
-    axios
+    axiosInstance
       .get(`http://localhost:5007/api/Coffee/GetCoffeeDetails?coffeeId=${id}`)
       .then((response) => {
         console.log(response.data)
@@ -39,18 +42,28 @@ function ProductDetail() {
 
   const submitItemToCart = ()=>{
 
-    axios.post('http://localhost:5007/api/Cart/AddCoffeeToCart', {
-      "userId": 4,
+    axiosInstance.post('http://localhost:5007/api/Cart/AddCoffeeToCart', {
       "coffeeId": id,
       "addOn": generateAddOnsString,
       "price": finalPrice
     })
     .then(function (response) {
       console.log(response);
-      alert("Item added to cart successfully")
+      toast.success("Item added to cart successfully")
     })
     .catch(function (error) {
       console.log(error);
+      console.log(error.response.data.message);
+      console.log(error.response.data.errorCode);
+
+      
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.warn(error.response.data.message)
+      } 
+      else{
+        toast.error("Server error please try again later")
+      }
+
     });
 
 
@@ -124,13 +137,18 @@ function ProductDetail() {
     return parts.join(',');
   }, [productDetail, selectedCapacity, selectedMilk, selectedNonDairyAlternative, selectedSauces, selectedToppings]);
 
-  if (!productDetail) return <div>Loading...</div>;
+  if (!productDetail) return (
+    <>
+    <Navbar/>
+    <LoadingComponentUser/>
+    </>
+  )
 
   return (
     <div style={{ backgroundColor: "#f9f9f9" }}>
       <Navbar />
       <div className="container">
-        <div className="product-detail-image" style={{ backgroundImage: `url('${Cappuccino}')` }}></div>
+        <div className="product-detail-image" style={{ backgroundImage: `url('${productDetail.imageURL || Cappuccino}')` }}></div>
         <div className="d-flex justify-content-between">
         <h1 className="plus-jakarta-sans-ExtraBold product-detail-heading">{productDetail.name}</h1>
         <h1 className="plus-jakarta-sans-ExtraBold product-detail-heading-price">${productDetail.price}</h1>

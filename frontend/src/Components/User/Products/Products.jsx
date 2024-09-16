@@ -5,6 +5,7 @@ import Navbar from "../Navbar/Navbar";
 import "./Products.css";
 import Cappuccino from "../../../Images/User/Cappuccino.webp";
 import Card from "./Card";
+import LoadingComponentUser from "../../LoadingAnimation/LoadingComponentUser";
 function Products() {
   const [query, setQuery] = useState("");
   const [coffees, setCoffees] = useState(null);
@@ -24,7 +25,13 @@ function Products() {
   
   },[])
 
-  if(coffees!=null){
+  if (!coffees) return (
+    <>
+    <Navbar/>
+    <LoadingComponentUser/>
+    </>
+  )
+  else{
   return (
     <div>
       <Navbar></Navbar>

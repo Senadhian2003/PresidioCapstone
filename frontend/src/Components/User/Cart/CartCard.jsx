@@ -5,6 +5,8 @@ import CloseImg from "../../../Images/User/close.png";
 import './Cart.css'
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import axiosInstance from "../../Axios/AxiosInstance";
+import { toast } from 'react-toastify';
 function CartCard(props) {
     const {data, getCartItems} =props; 
     const [quantity, setQuantity] = useState(data.quantity);
@@ -19,19 +21,27 @@ function CartCard(props) {
 
     let updateCartItemQuantity = ()=>{
         console.log("Changed")
-        axios.put('http://localhost:5007/api/Cart/UpdateCartItemQuantity',{
+        axiosInstance.put('http://localhost:5007/api/Cart/UpdateCartItemQuantity',{
             
                 "cartItemId": data.cartItemId,
                 "quantity": quantity
             
         }).then((response)=>{
             console.log(response.data)
-            alert("Item Quanitty updated")
+            toast.success("Item Quanitty updated")
             getCartItems()
         })
-        .catch((error)=>{
-            console.log(error)
-        })
+        .catch(function (error) {
+          // console.log(error);
+          
+          if (error.response && error.response.data && error.response.data.message) {
+            toast.warn(error.response.data.message)
+          } 
+          else{
+            toast.error("Server error please try again later")
+          }
+    
+        });
 
     }
 
@@ -63,16 +73,26 @@ function CartCard(props) {
 
 
   let deleteCartItem = (cartItemId)=>{
-
-    axios.delete(`http://localhost:5007/api/Cart/DeleteCartItem?cartItemId=${cartItemId}`)
+    console.log("Clicked")
+    axiosInstance.delete(`http://localhost:5007/api/Cart/DeleteCartItem?cartItemId=${cartItemId}`)
     .then((response)=>{
       console.log(response.data);
-      alert("Cart item deleted")
+      toast.success("Cart item deleted")
       getCartItems()
     })
-    .catch((error)=>{
-      console.log("Error : " +error)
-    })
+    .catch(function (error) {
+      // console.log(error);
+      
+   
+      
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.warn(error.response.data.message)
+      } 
+      else{
+        toast.error("Server error please try again later")
+      }
+
+    });
 
   }
     

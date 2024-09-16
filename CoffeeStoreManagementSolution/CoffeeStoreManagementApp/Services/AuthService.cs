@@ -15,13 +15,15 @@ namespace CoffeeStoreManagementApp.Services
         private readonly IRepository<int, User> _userRepo;
         private readonly IRepository<int, UserCredential> _userCredentialRepo;
         private readonly ITokenService _tokenService;
+        private readonly IRepository<int, Cart> _cartRepository;
 
 
-        public AuthService(IRepository<int, User> userRepo, IRepository<int, UserCredential> userCredentialRepo, ITokenService tokenService)
+        public AuthService(IRepository<int, User> userRepo, IRepository<int, UserCredential> userCredentialRepo, ITokenService tokenService, IRepository<int, Cart> cartRepository)
         {
             _userRepo = userRepo;
             _userCredentialRepo = userCredentialRepo;
             _tokenService = tokenService;
+            _cartRepository = cartRepository;
 
         }
 
@@ -87,6 +89,13 @@ namespace CoffeeStoreManagementApp.Services
                 user = await _userRepo.Add(user);
                 userCredential.UserId = user.UserId;
                 userCredential = await _userCredentialRepo.Add(userCredential);
+
+                Cart cart = new Cart()
+                {
+                    UserId = user.UserId,
+                };
+
+                await _cartRepository.Add(cart);
 
                 return user;
             }
